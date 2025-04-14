@@ -63,4 +63,8 @@ public class Graph {
             System.out.println();
         }
     }
+
+    public LinkedList<Building> getBuildings() {
+        return buildings;
+    }
 }

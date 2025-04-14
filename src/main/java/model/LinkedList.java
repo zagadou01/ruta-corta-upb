@@ -112,17 +112,27 @@ public class LinkedList <E extends Structure> {
     }
 
     private Node<E> searchCurrent(int index) {
-        Node<E> auxiliar = searchPrevious(index);
-        if (auxiliar != null) {
-            return auxiliar.getNext();
+        if (head != null) {
+            Node<E> auxiliar = head;
+            while (auxiliar != null) {
+                if (auxiliar.getElement().getIndex() == index) {
+                    return auxiliar;
+                }
+                auxiliar = auxiliar.getNext();
+            }
         }
         return null;
     }
 
     private Node<E> searchCurrent(String name) {
-        Node<E> auxiliar = searchPrevious(name);
-        if (auxiliar != null) {
-            return auxiliar.getNext();
+        if (head != null) {
+            Node<E> auxiliar = head;
+            while (auxiliar != null) {
+                if (auxiliar.getElement().getName().equals(name)) {
+                    return auxiliar;
+                }
+                auxiliar = auxiliar.getNext();
+            }
         }
         return null;
     }
