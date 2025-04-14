@@ -6,6 +6,7 @@ public class Structure {
     private final String name;
 
     public Structure(String name) {
+        this.index = 0;
         this.name = name;
     }
 

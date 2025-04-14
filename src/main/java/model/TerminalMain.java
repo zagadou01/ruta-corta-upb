@@ -3,6 +3,12 @@ package model;
 // TODO Main temporal para probar algoritmos y grafos por consola, se eliminará al final
 public class TerminalMain {
     public static void main(String[] args) {
+        Building a = new Building("A");
+        Place cafeteria = new Place("Cafeteria");
+        a.addPlace(cafeteria);
+        System.out.println(a.getPlaces().toString());
+
+        /*
         Graph graph = new Graph();
 
         graph.addBuilding(new Building("a"));
@@ -23,5 +29,6 @@ public class TerminalMain {
         graph.addRoute("c", "a", 2, true);
 
         graph.print();
+        */
     }
 }
