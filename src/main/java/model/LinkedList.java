@@ -28,8 +28,34 @@ public class LinkedList <E extends Structure> {
         size++;
     }
 
+    public void remove(int index) {
+        if (head != null) {
+            if (head.getElement().getIndex() == index) {
+                head = head.getNext();
+            } else {
+                Node<E> auxiliar = searchPrevious(index);
+                if (auxiliar != null) {
+                    auxiliar.setNext(auxiliar.getNext().getNext());
+                }
+            }
+        }
+    }
+
+    public void remove(String name) {
+        if (head != null) {
+            if (head.getElement().getName().equals(name)) {
+                head = head.getNext();
+            } else {
+                Node<E> auxiliar = searchPrevious(name);
+                if (auxiliar != null) {
+                    auxiliar.setNext(auxiliar.getNext().getNext());
+                }
+            }
+        }
+    }
+
     public int getIndex(String name) {
-        Node<E> auxiliar = search(name);
+        Node<E> auxiliar = searchCurrent(name);
         if (auxiliar != null) {
             return auxiliar.getElement().getIndex();
         }
@@ -37,7 +63,7 @@ public class LinkedList <E extends Structure> {
     }
 
     public String getName(int index) {
-        Node<E> auxiliar = search(index);
+        Node<E> auxiliar = searchCurrent(index);
         if (auxiliar != null) {
             return auxiliar.getElement().getName();
         }
@@ -45,7 +71,7 @@ public class LinkedList <E extends Structure> {
     }
 
     public E getNode(String name) {
-        Node<E> auxiliar = search(name);
+        Node<E> auxiliar = searchCurrent(name);
         if (auxiliar != null) {
             return auxiliar.getElement();
         }
@@ -53,7 +79,7 @@ public class LinkedList <E extends Structure> {
     }
 
     public E getNode(int index) {
-        Node<E> auxiliar = search(index);
+        Node<E> auxiliar = searchCurrent(index);
         if (auxiliar != null) {
             return auxiliar.getElement();
         }
@@ -85,11 +111,27 @@ public class LinkedList <E extends Structure> {
         return text;
     }
 
-    private Node<E> search(int index) {
+    private Node<E> searchCurrent(int index) {
+        Node<E> auxiliar = searchPrevious(index);
+        if (auxiliar != null) {
+            return auxiliar.getNext();
+        }
+        return null;
+    }
+
+    private Node<E> searchCurrent(String name) {
+        Node<E> auxiliar = searchPrevious(name);
+        if (auxiliar != null) {
+            return auxiliar.getNext();
+        }
+        return null;
+    }
+
+    private Node<E> searchPrevious(int index) {
         if (head != null) {
             Node<E> auxiliar = head;
-            while (auxiliar != null) {
-                if (auxiliar.getElement().getIndex() == index) {
+            while (auxiliar.getNext() != null) {
+                if (auxiliar.getNext().getElement().getIndex() == index) {
                     return auxiliar;
                 }
                 auxiliar = auxiliar.getNext();
@@ -98,11 +140,11 @@ public class LinkedList <E extends Structure> {
         return null;
     }
 
-    private Node<E> search(String name) {
+    private Node<E> searchPrevious(String name) {
         if (head != null) {
             Node<E> auxiliar = head;
-            while (auxiliar != null) {
-                if (auxiliar.getElement().getName().equals(name)) {
+            while (auxiliar.getNext() != null) {
+                if (auxiliar.getNext().getElement().getName().equals(name)) {
                     return auxiliar;
                 }
                 auxiliar = auxiliar.getNext();
