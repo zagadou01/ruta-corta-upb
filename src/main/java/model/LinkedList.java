@@ -32,10 +32,12 @@ public class LinkedList <E extends Structure> {
         if (head != null) {
             if (head.getElement().getIndex() == index) {
                 head = head.getNext();
+                size--;
             } else {
                 Node<E> auxiliar = searchPrevious(index);
                 if (auxiliar != null) {
                     auxiliar.setNext(auxiliar.getNext().getNext());
+                    size--;
                 }
             }
         }
@@ -45,10 +47,12 @@ public class LinkedList <E extends Structure> {
         if (head != null) {
             if (head.getElement().getName().equals(name)) {
                 head = head.getNext();
+                size--;
             } else {
                 Node<E> auxiliar = searchPrevious(name);
                 if (auxiliar != null) {
                     auxiliar.setNext(auxiliar.getNext().getNext());
+                    size--;
                 }
             }
         }
