@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OpController">
+   <children>
+      <AnchorPane fx:id="frontPane" prefHeight="720.0" prefWidth="1080.0">
+         <children>
+            <AnchorPane fx:id="backPane" prefHeight="720.0" prefWidth="1080.0">
+               <children>
+                  <Label layoutX="911.0" layoutY="57.0" text="Lugares Relevantes:" />
+                  <Label fx:id="placesList" alignment="TOP_CENTER" layoutX="911.0" layoutY="75.0" prefHeight="146.0" prefWidth="96.0" text="[Ninguno]" textAlignment="CENTER" />
+                  <Button fx:id="delBuild" layoutX="956.0" layoutY="14.0" mnemonicParsing="false" onAction="#deleteBuilding" text="Eliminar Edificio" />
+                  <Button fx:id="addBuild" layoutX="847.0" layoutY="14.0" mnemonicParsing="false" onAction="#addNewBuilding" text="Agregar Edificio" />
+                  <Button fx:id="delRoute" layoutX="738.0" layoutY="14.0" mnemonicParsing="false" onAction="#deleteRoute" text="Eliminar Ruta" />
+                  <Button fx:id="addRoute" layoutX="636.0" layoutY="14.0" mnemonicParsing="false" onAction="#addNewRoute" text="Agregar Ruta" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

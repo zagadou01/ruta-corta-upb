@@ -9,10 +9,19 @@ import java.io.IOException;
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+
+        /*
+         * Por ahora hay que cambiar la vista desde acá xd
+         * 
+         * operator
+         * user
+         */
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("user-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
+        stage.setTitle("Ruta corta UPB");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

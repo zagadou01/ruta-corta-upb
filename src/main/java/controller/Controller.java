@@ -1,0 +1,136 @@
+package controller;
+
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import model.Building;
+import model.Graph;
+import model.Place;
+import model.Route;
+
+
+// Clase padre que genera los Nodos y líneas, además de cargar el grafo.
+ 
+public abstract class Controller {
+
+    @FXML
+    protected Label placesList;
+    @FXML
+    protected VBox mainAnchor;
+    @FXML
+    protected AnchorPane backPane;
+    @FXML
+    protected AnchorPane frontPane;
+
+    protected Graph grafo = new Graph();
+
+    @FXML
+    public void initialize(){
+
+        mainAnchor.setMaxSize(1080, 720);
+        frontPane.setMaxSize(1080, 720);
+        backPane.setMaxSize(1080, 720);
+
+        mainAnchor.setPrefSize(1080, 720);
+        //frontPane.setPrefSize(1080, 720);
+        //backPane.setPrefSize(1080, 720);
+
+        //Listeners para agregar automáticamente Nodos o Aristas a la GUI
+        grafo.setOnBuildingAdded(nodo -> {
+            Platform.runLater(() -> createBuilding(nodo));
+        });
+
+        grafo.setOnRouteAdded(route -> {
+            Platform.runLater(() -> createRoute(route, grafo));
+        });
+
+        // TODO carga de archivos, csv o Json
+
+        // agregando nodos (TEST, luego se cargarán desde un archivo csv)
+        Building b1 = new Building("J", 500, 300);
+        b1.addPlace(new Place("Biblioteca"));
+        b1.addPlace(new Place("Salas de asesoría"));
+
+        grafo.addBuilding(new Building("A", 100, 100));
+        grafo.addBuilding(new Building("B", 100, 200));
+        grafo.addBuilding(new Building("C", 200, 100));
+        grafo.addBuilding(b1);
+
+        grafo.addRoute("A", "B", 5, true);
+        grafo.addRoute("C", "B", 0, false);
+        grafo.addRoute("C", "J", 0, false);
+        grafo.print();
+    }
+
+    /**
+     * Crea botones de clase Point en la interfaz gráfica.
+     * 
+     * @param building
+     * @return Point
+     */
+    protected void createBuilding(Building building){
+        int x = building.getPosition()[0];
+        int y = building.getPosition()[1];
+        String name = building.getName();
+        Point boton = new Point();
+        boton.setText(name);
+        boton.setPlaces(building.getPlaces());
+
+        boton.setPrefSize(50.0, 50.0);
+        boton.setLayoutX(x - boton.getPrefWidth()/2);
+        boton.setLayoutY(y - boton.getPrefHeight()/2);
+        
+        boton.setId("B-" + name);
+
+        boton.setShape(new Circle(5));
+
+        boton.setOnMouseEntered(e ->{
+
+            /*
+             * Esto se va a cambiar cuando se empiece a trabajar en añadir el estilo.
+             */
+
+            //Actualizar la información de los lugares.
+            if (boton.getPlaces().getSize() > 0){
+                String strPlaces = "[" + boton.getText()+"]\n";
+
+                for (int i = 0; i < boton.getPlaces().getSize(); i++){
+                    strPlaces += boton.getPlaces().getName(i) + "\n";
+                }
+                placesList.setText(strPlaces);
+
+            }else{
+                placesList.setText("[" + boton.getText()+"]\n[Ninguno]");
+            }
+        });
+
+        frontPane.getChildren().add(boton);
+    }
+
+    /**
+     * Crea una línea entre dos Points (botones).
+     * 
+     * @param route
+     * @param grafo
+     * @return Line
+     */
+    protected void createRoute(Route route, Graph grafo){
+        String strStart = route.getBuildings()[0];
+        String strEnd = route.getBuildings()[1];
+
+        Building bStart = grafo.getBuildings().getNode(strStart);
+        Building bEnd = grafo.getBuildings().getNode(strEnd);
+
+        double[] position = new double[]{bStart.getPosition()[0], bStart.getPosition()[1], bEnd.getPosition()[0], bEnd.getPosition()[1]};
+
+        Line line = new Line(position[0], position[1], position[2], position[3]);
+        line.setId("R-" + strStart + "-" + strEnd + "-" + (route.hasStairs() ? 1 : 0));
+        line.setStrokeWidth(3.0);
+
+        backPane.getChildren().add(line);
+    }
+}
