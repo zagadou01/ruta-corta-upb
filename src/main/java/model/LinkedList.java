@@ -104,15 +104,18 @@ public class LinkedList <E extends Structure> {
 
     @Override
     public String toString() {
-        String text = "";
+        StringBuilder text = new StringBuilder();
         if (head != null) {
             Node<E> auxiliar = head;
             while (auxiliar != null) {
-                text += " -> " + auxiliar.getElement().getName();
+                text.append(auxiliar.getElement().getName());
                 auxiliar = auxiliar.getNext();
+                if (auxiliar != null) {
+                    text.append(";");
+                }
             }
         }
-        return text;
+        return text.toString();
     }
 
     private Node<E> searchCurrent(int index) {
