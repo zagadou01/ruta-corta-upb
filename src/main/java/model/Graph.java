@@ -41,24 +41,21 @@ public class Graph {
 
     public void addRoute(String initialBuilding, String finalBuilding, int distance, boolean stairs) {
         int initialIndex = buildings.getIndex(initialBuilding);
-        if (initialIndex == -1 || initialIndex >= buildings.getSize()) {
-            return;
-        }
-
         int finalIndex = buildings.getIndex(finalBuilding);
-        if (finalIndex == -1 || finalIndex >= buildings.getSize()) {
-            return;
-        }
 
         routes[initialIndex][finalIndex] = new Route(distance, stairs, initialBuilding, finalBuilding);
-
-        Route route = new Route(distance, stairs, initialBuilding, finalBuilding);
-
-        routes[finalIndex][initialIndex] = route;
-        routes[finalIndex][initialIndex] = route;
+        routes[finalIndex][initialIndex] = new Route(distance, stairs, initialBuilding, finalBuilding);
 
         //Avisar la interfaz de que se añadió una ruta nueva.
-        if (onRouteAdded != null) onRouteAdded.accept(route);
+        if (onRouteAdded != null) onRouteAdded.accept(new Route(distance, stairs, initialBuilding, finalBuilding));
+    }
+
+    public void removeRoute(String initialBuilding, String finalBuilding) {
+        int initialIndex = buildings.getIndex(initialBuilding);
+        int finalIndex = buildings.getIndex(finalBuilding);
+
+        routes[initialIndex][finalIndex] = null;
+        routes[finalIndex][initialIndex] = null;
     }
 
     public void print() {
