@@ -24,8 +24,8 @@ public class TerminalMain {
         graph.addRoute("0", "2", 6, true);
         graph.addRoute("1", "3", 5, true);
         graph.addRoute("2", "3", 8, true);
-        graph.addRoute("3", "4", 10, true);
-        graph.addRoute("3", "5", 15, true);
+        graph.addRoute("3", "4", 9/*10*/, true);
+        graph.addRoute("3", "5", 9/*15*/, true);
         graph.addRoute("4", "5", 6, true);
         graph.addRoute("4", "6", 2, true);
         graph.addRoute("5", "6", 6, true);
@@ -34,10 +34,21 @@ public class TerminalMain {
 
         String[] path = graph.shortestPath("0", "6");
 
+        printPath(path);
+
+        graph.removeBuilding("3");
+
+        graph.print();
+
+        System.out.println(graph.getBuildings().toString());
+    }
+
+    private static void printPath(String[] path) {
         System.out.print("Start -> ");
         for (String s : path) {
             System.out.print(s + " -> ");
         }
-        System.out.print("End");
+        System.out.println("End");
+        System.out.println();
     }
 }
