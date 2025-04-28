@@ -4,10 +4,12 @@ package model;
 public class Route {
     private final int distance;
     private final boolean stairs;
+    private String[] buildings;
 
-    public Route(int distance, boolean stairs) {
+    public Route(int distance, boolean stairs, String bStart, String bEnd) {
         this.distance = distance;
         this.stairs = stairs;
+        buildings = new String[]{bStart, bEnd};
     }
 
     public int getDistance() {
@@ -16,5 +18,9 @@ public class Route {
 
     public boolean hasStairs() {
         return stairs;
+    }
+
+    public String[] getBuildings(){
+        return buildings;
     }
 }

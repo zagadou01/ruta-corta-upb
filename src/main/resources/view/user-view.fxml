@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewController">
+   <children>
+      <ToolBar prefHeight="40.0" prefWidth="200.0">
+        <items>
+          <Button mnemonicParsing="false" text="Button" />
+        </items>
+      </ToolBar>
+      <HBox prefHeight="720.0" prefWidth="1080.0">
+         <children>
+            <StackPane prefHeight="720.0" prefWidth="757.0">
+               <children>
+                  <AnchorPane fx:id="frontPane" prefHeight="720.0">
+                     <children>
+                        <AnchorPane fx:id="backPane" prefHeight="720.0">
+                           <children>
+                              <Button fx:id="calcRoute" layoutX="542.0" layoutY="643.0" mnemonicParsing="false" onAction="#calculateRoute" text="Calcular Ruta" />
+                              <Button fx:id="switchStairs" layoutX="628.0" layoutY="1.0" mnemonicParsing="false" onAction="#setStairs" text="Escaleras" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </StackPane>
+            <VBox prefHeight="720.0" prefWidth="354.0">
+               <children>
+                  <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="18.0" prefWidth="233.0" text="Lugares Relevantes:">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="placesList" alignment="TOP_CENTER" prefHeight="146.0" prefWidth="232.0" text="[Ninguno]" textAlignment="CENTER" />
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>
