@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 
 // Grafo
 public class Graph {
-    private LinkedList<Building> buildings; // Lista de vértices
+    private final LinkedList<Building> buildings; // Lista de vértices
     private Route[][] routes; // Matriz de adyacencia
 
     private Consumer<Building> onBuildingAdded;
@@ -223,10 +223,6 @@ public class Graph {
 
     public Route[][] getRoutes(){
         return routes;
-    }
-
-    public void setBuildings(LinkedList<Building> buildings) {
-        this.buildings = buildings;
     }
 
     public void setRoutes(Route[][] routes) {
