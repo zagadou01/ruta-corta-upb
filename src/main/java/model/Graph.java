@@ -27,6 +27,8 @@ public class Graph {
 
     public void addBuilding(Building building) {
         buildings.add(building);
+        
+        //Avisar la interfaz de que se añadió una ruta nueva.
         if (onBuildingAdded != null) onBuildingAdded.accept(building);
 
         int size = buildings.getSize();
@@ -50,10 +52,12 @@ public class Graph {
 
         routes[initialIndex][finalIndex] = new Route(distance, stairs, initialBuilding, finalBuilding);
 
-        //La matriz es par porque el nodo es No-Dirigido, por lo que hay que poner la ruta inversa también.
-        routes[finalIndex][initialIndex] = new Route(distance, stairs);
+        Route route = new Route(distance, stairs, initialBuilding, finalBuilding);
+
+        routes[finalIndex][initialIndex] = route;
         routes[finalIndex][initialIndex] = route;
 
+        //Avisar la interfaz de que se añadió una ruta nueva.
         if (onRouteAdded != null) onRouteAdded.accept(route);
     }
 
