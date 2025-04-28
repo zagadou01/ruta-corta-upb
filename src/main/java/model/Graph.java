@@ -33,8 +33,8 @@ public class Graph {
             return;
         }
 
-        Route route = new Route(distance, stairs);
-        routes[initialIndex][finalIndex] = route;
+        routes[initialIndex][finalIndex] = new Route(distance, stairs);
+        routes[finalIndex][initialIndex] = new Route(distance, stairs);
     }
 
     public void print() {
