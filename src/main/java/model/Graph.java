@@ -5,11 +5,16 @@ import java.util.function.Consumer;
 
 // Grafo
 public class Graph {
-    private final LinkedList<Building> buildings; // Lista de vértices
+    private LinkedList<Building> buildings; // Lista de vértices
     private Route[][] routes; // Matriz de adyacencia
 
     private Consumer<Building> onBuildingAdded;
     private Consumer<Route> onRouteAdded;
+
+    public Graph() {
+        this.buildings = new LinkedList<>();
+        this.routes = new Route[0][0];
+    }
 
     //Estos dos métodos son para que el Grafo le avise a la interfaz cuando se añaden nuevas rutas y edificios.
     public void setOnBuildingAdded(Consumer<Building> callback) {
@@ -18,11 +23,6 @@ public class Graph {
 
     public void setOnRouteAdded(Consumer<Route> callback) {
         this.onRouteAdded = callback;
-    }
-
-    public Graph() {
-        this.buildings = new LinkedList<>();
-        this.routes = new Route[0][0];
     }
 
     public void addBuilding(Building building) {
@@ -79,22 +79,6 @@ public class Graph {
         }
     }
 
-    // Concatena los dos arrays en los que se separan las rutas al eliminar una ruta
-    private Route[] concatenateArrays(Route[] array1, Route[] array2) {
-        int size = array1.length + array2.length;
-        Route[] concatenatedArray = new Route[size];
-
-        for (int i = 0; i < array1.length; i++) {
-            concatenatedArray[i] = array1[i];
-        }
-
-        for (int i = 0, j = array1.length; i < array2.length; i++, j++) {
-            concatenatedArray[j] = array2[i];
-        }
-
-        return concatenatedArray;
-    }
-
     public void addRoute(String initialBuilding, String finalBuilding, int distance, boolean stairs) {
         int initialIndex = buildings.getIndex(initialBuilding);
         int finalIndex = buildings.getIndex(finalBuilding);
@@ -112,37 +96,6 @@ public class Graph {
 
         routes[initialIndex][finalIndex] = null;
         routes[finalIndex][initialIndex] = null;
-    }
-
-    public void print() {
-        int size = buildings.getSize();
-        if (size > 0) {
-            System.out.print("  ");
-            for (int i = 0; i < size; i++) {
-                System.out.print(buildings.getName(i) + " ");
-            }
-
-            System.out.println();
-
-            for (int i = 0; i < size; i++) {
-                System.out.print(buildings.getName(i) + " ");
-                for (int j = 0; j < size; j++) {
-                    Route route = routes[i][j];
-                    if (route != null) {
-                        System.out.print(route.getDistance() + " ");
-                    } else {
-                        System.out.print("- ");
-                    }
-
-                }
-                System.out.println();
-            }
-            System.out.println();
-        }
-    }
-
-    public LinkedList<Building> getBuildings() {
-        return buildings;
     }
 
     public String[] shortestPath(String initialBuilding, String finalBuilding /*add boolean stairs*/) {
@@ -209,6 +162,33 @@ public class Graph {
         return path;
     }
 
+    public void print() {
+        int size = buildings.getSize();
+        if (size > 0) {
+            System.out.print("  ");
+            for (int i = 0; i < size; i++) {
+                System.out.print(buildings.getName(i) + " ");
+            }
+
+            System.out.println();
+
+            for (int i = 0; i < size; i++) {
+                System.out.print(buildings.getName(i) + " ");
+                for (int j = 0; j < size; j++) {
+                    Route route = routes[i][j];
+                    if (route != null) {
+                        System.out.print(route.getDistance() + " ");
+                    } else {
+                        System.out.print("- ");
+                    }
+
+                }
+                System.out.println();
+            }
+            System.out.println();
+        }
+    }
+
     private String[] reverse(String[] array) {
         String[] auxiliary = new String[array.length];
         int j = 0;
@@ -221,7 +201,35 @@ public class Graph {
         return auxiliary;
     }
 
+    // Concatena los dos arrays en los que se separan las rutas al eliminar una ruta
+    private Route[] concatenateArrays(Route[] array1, Route[] array2) {
+        int size = array1.length + array2.length;
+        Route[] concatenatedArray = new Route[size];
+
+        for (int i = 0; i < array1.length; i++) {
+            concatenatedArray[i] = array1[i];
+        }
+
+        for (int i = 0, j = array1.length; i < array2.length; i++, j++) {
+            concatenatedArray[j] = array2[i];
+        }
+
+        return concatenatedArray;
+    }
+
+    public LinkedList<Building> getBuildings() {
+        return buildings;
+    }
+
     public Route[][] getRoutes(){
         return routes;
+    }
+
+    public void setBuildings(LinkedList<Building> buildings) {
+        this.buildings = buildings;
+    }
+
+    public void setRoutes(Route[][] routes) {
+        this.routes = routes;
     }
 }
