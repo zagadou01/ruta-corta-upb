@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -16,7 +15,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -432,12 +430,7 @@ public class OpController extends Controller{
         });
     }
 
-    private void deleteLineRoute(String bStart, String bEnd){
-        
-            //if route exists:
-            // FIXME Eliminar también la ruta del grafo.
-            //grafo.removeRoute(pair[0], pair[1]);
-
+    private void deleteLineRoute(String bStart, String bEnd){        
             for(int i=0; i < backPane.getChildren().size(); i++){
 
                 if(backPane.getChildren().get(i) instanceof Line) {
@@ -452,6 +445,10 @@ public class OpController extends Controller{
                         backPane.getChildren().remove(l);
                         //Cuando se elimina uno, el siguiente pasa a ser el index actual, entonces hay que volverlo a cuadrar.
                         i--;
+
+                        //Se elimina la ruta del grafo.
+                        grafo.getRoutes()[grafo.getBuildings().getIndex(bStart)][grafo.getBuildings().getIndex(bEnd)] = null;
+                        grafo.getRoutes()[grafo.getBuildings().getIndex(bEnd)][grafo.getBuildings().getIndex(bStart)] = null;
                     }
                 }
             }
@@ -630,15 +627,5 @@ public class OpController extends Controller{
         });
 
         return listView;
-    }
-
-    private void showError(String error){
-        Alert alert = new Alert(AlertType.ERROR);
-
-        alert.setTitle("ERROR");
-        alert.setHeaderText("Ha ocurrido un error");
-        alert.setContentText(error);
-
-        alert.show();
     }
 }
