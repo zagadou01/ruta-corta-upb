@@ -2,6 +2,8 @@ package controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -36,8 +38,6 @@ public abstract class Controller {
         backPane.setMaxSize(1080, 720);
 
         mainAnchor.setPrefSize(1080, 720);
-        //frontPane.setPrefSize(1080, 720);
-        //backPane.setPrefSize(1080, 720);
 
         //Listeners para agregar automáticamente Nodos o Aristas a la GUI
         grafo.setOnBuildingAdded(nodo -> {
@@ -63,6 +63,7 @@ public abstract class Controller {
         grafo.addRoute("A", "B", 5, true);
         grafo.addRoute("C", "B", 0, false);
         grafo.addRoute("C", "J", 0, false);
+        grafo.addRoute("A", "J", 100, false);
         grafo.print();
     }
 
@@ -112,11 +113,10 @@ public abstract class Controller {
     }
 
     /**
-     * Crea una línea entre dos Points (botones).
+     * Crea una línea entre dos botones (Point).
      * 
      * @param route
      * @param grafo
-     * @return Line
      */
     protected void createRoute(Route route, Graph grafo){
         String strStart = route.getBuildings()[0];
@@ -132,5 +132,15 @@ public abstract class Controller {
         line.setStrokeWidth(3.0);
 
         backPane.getChildren().add(line);
+    }
+
+    protected void showError(String error){
+        Alert alert = new Alert(AlertType.ERROR);
+
+        alert.setTitle("ERROR");
+        alert.setHeaderText("Ha ocurrido un error");
+        alert.setContentText(error);
+
+        alert.show();
     }
 }

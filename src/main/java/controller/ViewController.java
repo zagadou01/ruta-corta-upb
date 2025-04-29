@@ -2,6 +2,7 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import model.Building;
 
@@ -15,6 +16,7 @@ public class ViewController extends Controller{
     private boolean stairs = false;
     private String bStart = null;
     private String bEnd = null;
+    private boolean shortRoute = false;
 
     @FXML
     /**
@@ -23,9 +25,41 @@ public class ViewController extends Controller{
      * a la ruta deseada
      */
     public void calculateRoute(){
+        if (!shortRoute){
+            if (bStart != null && bEnd != null){
+                String[] ruta = grafo.shortestPath(bStart, bEnd);
 
-        // TODO falta el método dijkstra para poder implementar este.
+                for (int i = 0; i < ruta.length-1; i ++){
+                    
+                    String b1 = ruta[i];
+                    String b2 = ruta[i + 1];
 
+                    System.out.println("BUSCANDO: "+ b1 + " to " + b2);
+
+                    //Buscar las líneas con un ID que contenga el edificio en cuestión.
+                    for(int j = 0; j < backPane.getChildren().size(); j++){
+
+                        if(backPane.getChildren().get(j) instanceof Line) {
+                            
+                            Line l = (Line)backPane.getChildren().get(j);
+                            String crrnt = l.getId();
+
+                            System.out.println(crrnt);
+                            if (crrnt.contains(b1) && crrnt.contains(b2)){
+
+                                l.setStroke(Color.LIGHTGREEN);
+                            }
+                        }
+                    }
+
+                    System.out.println(i);
+                }        
+
+                shortRoute = true;
+            }else{
+                showError("Debe seleccionar un edificio inicial y uno final.");
+            }
+        }
         System.out.println("grafo.Dijkstra(Nodo inicio: " + bStart + ", Nodo fin: " + bEnd + ", Escaleras? " + stairs + ")");
     }
 
@@ -70,6 +104,20 @@ public class ViewController extends Controller{
         //Añadir funcionalidades al botón.
         boton.setOnAction(e ->{
 
+            if (shortRoute && boton.isSelected()){
+                //Buscar las líneas con un ID que contenga el edificio en cuestión.
+                for(int j = 0; j < backPane.getChildren().size(); j++){
+
+                    if(backPane.getChildren().get(j) instanceof Line) {
+                        
+                        Line l = (Line)backPane.getChildren().get(j);
+
+                        l.setStroke(Color.BLACK);
+                    }
+                }
+                shortRoute = false;
+            }
+
             //Seleccionar Nodos
             if (!boton.isSelected()){
                 if (bStart == null){
@@ -94,6 +142,8 @@ public class ViewController extends Controller{
 
                 boton.setSelected(false);
             }
+
+            
         });
     }
 }

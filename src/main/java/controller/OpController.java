@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -14,9 +13,10 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -32,16 +32,25 @@ import model.LinkedList;
 public class OpController extends Controller{
     
     @FXML
-    private Button addRoute;
+    private MenuItem addRoute;
     @FXML
-    private Button delRoute;
+    private MenuItem delRoute;
     @FXML
-    private Button addBuild;
+    private MenuItem addBuild;
     @FXML
-    private Button delBuild;
+    private MenuItem delBuild;
+    @FXML
+    private Button cancelAddBuild;
+    @FXML
+    private MenuButton addList;
+    @FXML
+    private MenuButton removeList;
 
     private boolean addingBuilding = false;
 
+    /**
+     * Crea un edificio (Point) y le asigna la función editBuildingPlaces(Building, Point) al darle click para editar sus lugares.
+     */
     @Override
     protected void createBuilding(Building building){
         
@@ -55,7 +64,7 @@ public class OpController extends Controller{
     }
 
     /**
-     * Crea una línea y una etiqueta entre dos Edificios (Point)
+     * Crea una línea (Line) y una etiqueta (Label, la cual indica la distancia de la ruta) entre dos Edificios (Point)
      */
     @Override
     protected void createRoute(Route route, Graph grafo){
@@ -217,23 +226,38 @@ public class OpController extends Controller{
         Optional<String[]> result = dialog.showAndWait();
 
         result.ifPresent(pair -> {
-
-            if (pair[0] != pair[1]) deleteLineRoute(pair[0], pair[1]);
+            
+            //Si el nodo de inicio es diferente del nodo de llegada, para evitar eliminar todas las rutas de un edificio
+            if (pair[0] != pair[1]){
+                deleteLineRoute(pair[0], pair[1]);
+            }else{
+                showError("Los edificios inicial y final deben ser diferentes.");
+            }
         });
     }
 
+    /**
+     * Permite ubicar un nuevo edificio moviendo el puntero del ratón.
+     * Al dar click se llama a la función addBuildingConfig(x, y) siendo x, y las coordenadas del click.
+     */
     @FXML
     private void addNewBuilding(){
         
         if (!addingBuilding){
-            addBuild.setText("Cancelar");
+            //addBuild.setText("Cancelar");
             delBuild.setDisable(true);
             addRoute.setDisable(true);
             delRoute.setDisable(true);
 
+            addList.setDisable(true);
+            removeList.setDisable(true);
+
+            cancelAddBuild.setVisible(true);
+            cancelAddBuild.setDisable(false);
+
             Circle btnPlace = new Circle(25.5);
-            btnPlace.setTranslateX(addBuild.getLayoutX());
-            btnPlace.setTranslateY(addBuild.getLayoutY());
+            //btnPlace.setTranslateX(addBuild.getLayoutX());
+            //btnPlace.setTranslateY(addBuild.getLayoutY());
             btnPlace.setId("NEW-B");
             btnPlace.setVisible(false);
 
@@ -242,7 +266,7 @@ public class OpController extends Controller{
                 double x = e.getX();
                 double y = e.getY();
 
-                if (y > 100){
+                if (y > 30 && y < 575 && x < 820){
                     btnPlace.setTranslateY(y);
                     btnPlace.setTranslateX(x);
                     btnPlace.setVisible(true);
@@ -268,12 +292,22 @@ public class OpController extends Controller{
             addRoute.setDisable(false);
             delRoute.setDisable(false);
 
+            addList.setDisable(false);
+            removeList.setDisable(false);
+
+            cancelAddBuild.setVisible(false);
+            cancelAddBuild.setDisable(true);
+
             frontPane.getChildren().remove(frontPane.lookup("#NEW-B"));
         }
 
         addingBuilding = !addingBuilding;
     }
 
+    /**
+     * Crea una ventana para eliminar un edificio.
+     * La ventana contiene una lista desplegable (ComboBox) con los edificios disponibles.
+     */
     @FXML
     private void deleteBuilding(){
 
@@ -338,22 +372,15 @@ public class OpController extends Controller{
     }
 
     /**
+     * Crea una ventana emergente con las propiedades necesarias para crear un nuevo edificio en la interfaz gráfica y el grafo.
+     * La ventana contiene:
+     * * Lista con los lugares (ListView)
+     * * Campos de texto para especificar el nombre del edificio y el nombre del lugar a agregar
+     * * Un botón para agregar los lugares a la lista
      * 
-     * @param buildingName
-     * @return un String con los nombres de los lugares separados por comas. Si no hay lugares, retorna un String vacio.
+     * @param x componente horizontal de la posición del nuevo edificio.
+     * @param y componente vertical de la posición del nuevo edificio.
      */
-    private String getPlacesString(Building build){
-
-        int size = build.getPlaces().getSize();
-        String places = "";
-
-        for (int i = 0; i < size; i++){
-            places += build.getPlaces().getName(i) + ";";
-        }
-
-        return places;
-    }
-
     private void addBuildingConfig(int x, int y){
         Dialog<String[]> dialog = new Dialog<>();
 
@@ -432,12 +459,13 @@ public class OpController extends Controller{
         });
     }
 
-    private void deleteLineRoute(String bStart, String bEnd){
-        
-            //if route exists:
-            // FIXME Eliminar también la ruta del grafo.
-            //grafo.removeRoute(pair[0], pair[1]);
-
+    /**
+     * Elimina una ruta del grafo junto a su equivalente (Line) en la interfaz gráfica.
+     * 
+     * @param bStart Nombre del edificio inicial
+     * @param bEnd Nombre del edificio final
+     */
+    private void deleteLineRoute(String bStart, String bEnd){        
             for(int i=0; i < backPane.getChildren().size(); i++){
 
                 if(backPane.getChildren().get(i) instanceof Line) {
@@ -452,27 +480,39 @@ public class OpController extends Controller{
                         backPane.getChildren().remove(l);
                         //Cuando se elimina uno, el siguiente pasa a ser el index actual, entonces hay que volverlo a cuadrar.
                         i--;
+
+                        //Se elimina la ruta del grafo.
+                        grafo.removeRoute(bStart, bEnd);
                     }
                 }
             }
         grafo.print();
     }
 
+    /**
+     * Elimina un Edificio del grafo y al botón que lo representa de la interfaz (frontPane).
+     * 
+     * @param name nombre del edificio.
+     */
     private void deletePointBuilding(String name){
-        
-        //if route exists:
-        // FIXME Eliminar también el edificio del grafo.
-        //grafo.removeBuilding(name);
-
         Point p = (Point)frontPane.lookup("#B-" + name);
 
-        if (p != null){
-            frontPane.getChildren().remove(p);
-        }
+        frontPane.getChildren().remove(p);
+        grafo.removeBuilding(name);
         
         grafo.print();
     }
 
+    /**
+     * Muestra una ventana emergente para editar los lugares de un edificio.
+     * La ventana se compone de:
+     * * una lista (ListView)
+     * * una caja de texto para introducir el nombre de lugar (TextField)
+     * * un botón para agregar el String del lugar a la listra.
+     * 
+     * @param building
+     * @param point
+     */
     private void editBuildingPlaces(Building building, Point point){
         Dialog<String> dialog = new Dialog<>();
 
@@ -510,30 +550,24 @@ public class OpController extends Controller{
 
         //layout
         GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+
         HBox hbox = new HBox();
         hbox.setSpacing(10);
         HBox.setHgrow(places, Priority.ALWAYS);
-
-        grid.setHgap(10);
-        grid.setVgap(10);
-        //addPlace.setAlignment(Pos.CENTER_RIGHT);
         hbox.getChildren().addAll(places, addPlace);
 
-        //grid.add(new Label("Agregar lugar:"), 0, 0);
-        //grid.add(places, 1, 0);
-        //grid.add(addPlace, 2, 0);
         grid.add(hbox, 0, 0);
-        //grid.add(new Label("Lugares:"), 0, 1);
         grid.add(listView, 0, 1);
-
 
         dialog.getDialogPane().setContent(grid);
 
         // Obtener el resultado al darle ACCEPT
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == accept) {
-                System.out.println("PLACES : " + places.getText());
-                return places.getText();
+                
+                return new String();//places.getText();
             }
             return null;
         });
@@ -564,6 +598,12 @@ public class OpController extends Controller{
         });
     }
 
+    /**
+     * Transforma un String con lugares separados por punto y coma (;) a una LinkedList de lugares (Place).
+     * 
+     * @param strPlaces String de los lugares, donde cada lugar está separado por un punto y coma (;)
+     * @return
+     */
     private LinkedList<Place> placesToList (String strPlaces){
     
         String placeName = "";
@@ -578,18 +618,21 @@ public class OpController extends Controller{
                 continue;
             }else{
                 newPlaces.add(new Place(placeName));
-                System.out.println("SE AÑADIO; " + placeName);
                 placeName = "";
             }
         }
 
-        System.out.println("SE AÑADIO; " + placeName);
-
         newPlaces.add(new Place(placeName));
-
         return newPlaces;
     }
 
+    /**
+     * Crea una lista para mostrar los lugares de cada edificio.
+     * Cada celda se compone de una Label (texto) para ver el nombre de lugar,
+     * y un botón (Button) para eliminar el elemento de la lista.
+     * 
+     * @return una ListView, que es un elemento de javafx que corresponde a una lista.
+     */
     private ListView<String> placesListGUI(){
 
         // Lista de lugares.
@@ -630,15 +673,5 @@ public class OpController extends Controller{
         });
 
         return listView;
-    }
-
-    private void showError(String error){
-        Alert alert = new Alert(AlertType.ERROR);
-
-        alert.setTitle("ERROR");
-        alert.setHeaderText("Ha ocurrido un error");
-        alert.setContentText(error);
-
-        alert.show();
     }
 }
