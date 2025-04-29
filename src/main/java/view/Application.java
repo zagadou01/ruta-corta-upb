@@ -17,7 +17,7 @@ public class Application extends javafx.application.Application {
          * user
          */
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("user-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("operator-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
         stage.setTitle("Ruta corta UPB");
         stage.setScene(scene);

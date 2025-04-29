@@ -38,8 +38,6 @@ public abstract class Controller {
         backPane.setMaxSize(1080, 720);
 
         mainAnchor.setPrefSize(1080, 720);
-        //frontPane.setPrefSize(1080, 720);
-        //backPane.setPrefSize(1080, 720);
 
         //Listeners para agregar automáticamente Nodos o Aristas a la GUI
         grafo.setOnBuildingAdded(nodo -> {
@@ -115,11 +113,10 @@ public abstract class Controller {
     }
 
     /**
-     * Crea una línea entre dos Points (botones).
+     * Crea una línea entre dos botones (Point).
      * 
      * @param route
      * @param grafo
-     * @return Line
      */
     protected void createRoute(Route route, Graph grafo){
         String strStart = route.getBuildings()[0];

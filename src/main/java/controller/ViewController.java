@@ -56,6 +56,8 @@ public class ViewController extends Controller{
                 }        
 
                 shortRoute = true;
+            }else{
+                showError("Debe seleccionar un edificio inicial y uno final.");
             }
         }
         System.out.println("grafo.Dijkstra(Nodo inicio: " + bStart + ", Nodo fin: " + bEnd + ", Escaleras? " + stairs + ")");
@@ -102,6 +104,20 @@ public class ViewController extends Controller{
         //Añadir funcionalidades al botón.
         boton.setOnAction(e ->{
 
+            if (shortRoute && boton.isSelected()){
+                //Buscar las líneas con un ID que contenga el edificio en cuestión.
+                for(int j = 0; j < backPane.getChildren().size(); j++){
+
+                    if(backPane.getChildren().get(j) instanceof Line) {
+                        
+                        Line l = (Line)backPane.getChildren().get(j);
+
+                        l.setStroke(Color.BLACK);
+                    }
+                }
+                shortRoute = false;
+            }
+
             //Seleccionar Nodos
             if (!boton.isSelected()){
                 if (bStart == null){
@@ -127,20 +143,7 @@ public class ViewController extends Controller{
                 boton.setSelected(false);
             }
 
-            if (shortRoute){
-                //Buscar las líneas con un ID que contenga el edificio en cuestión.
-                for(int j = 0; j < backPane.getChildren().size(); j++){
-
-                    if(backPane.getChildren().get(j) instanceof Line) {
-                        
-                        Line l = (Line)backPane.getChildren().get(j);
-
-                        l.setStroke(Color.BLACK);
-                    }
-                }
-
-                shortRoute = false;
-            }
+            
         });
     }
 }

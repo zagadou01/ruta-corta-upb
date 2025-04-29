@@ -7,19 +7,42 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
-
 
 <VBox fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewController">
    <children>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button mnemonicParsing="false" text="Button" />
+            <HBox prefHeight="25.6">
+               <children>
+                  <TilePane prefHeight="26.0" prefWidth="660.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Button mnemonicParsing="false" text="Dev mode">
+                           <TilePane.margin>
+                              <Insets right="10.0" />
+                           </TilePane.margin>
+                        </Button>
+                     </children>
+                  </TilePane>
+                  <TilePane alignment="TOP_RIGHT" prefHeight="26.0" prefWidth="406.0" HBox.hgrow="ALWAYS">
+                     <children>
+                      <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="More info" />
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </TilePane>
+               </children>
+            </HBox>
         </items>
       </ToolBar>
       <HBox prefHeight="720.0" prefWidth="1080.0">
          <children>
-            <StackPane prefHeight="720.0" prefWidth="757.0">
+            <StackPane prefHeight="720.0" prefWidth="857.0">
                <children>
                   <AnchorPane fx:id="frontPane" prefHeight="720.0">
                      <children>
@@ -33,14 +56,14 @@
                   </AnchorPane>
                </children>
             </StackPane>
-            <VBox prefHeight="720.0" prefWidth="354.0">
+            <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="230.0">
                <children>
-                  <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="18.0" prefWidth="233.0" text="Lugares Relevantes:">
+                  <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="18.0" text="Lugares Relevantes:">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="placesList" alignment="TOP_CENTER" prefHeight="146.0" prefWidth="232.0" text="[Ninguno]" textAlignment="CENTER" />
+                  <Label fx:id="placesList" alignment="TOP_CENTER" prefHeight="600.0" prefWidth="190.0" text="[Ninguno]" textAlignment="CENTER" />
                </children>
                <padding>
                   <Insets top="10.0" />
