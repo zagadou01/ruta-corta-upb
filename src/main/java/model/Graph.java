@@ -107,7 +107,7 @@ public class Graph {
         routes[finalIndex][initialIndex] = null;
     }
 
-    public String[] shortestPath(String initialBuilding, String finalBuilding /*add boolean stairs*/) {
+    public String[] shortestPath(String initialBuilding, String finalBuilding, Boolean stairsPath) {
         // Obtener el índice del edificio de salida y de llegada
         int initialIndex = buildings.getIndex(initialBuilding);
         int finalIndex = buildings.getIndex(finalBuilding);
@@ -135,11 +135,15 @@ public class Graph {
                 // Busca las rutas (aristas) conectadas con el edificio actual
                 Route auxiliaryRoute = routes[currentBuilding][i];
                 if (auxiliaryRoute != null) {
-                    // Calcula la distancia para llegar a la ruta, suma la distancia de la ruta con la acumulada actual
-                    int distance = auxiliaryRoute.getDistance() + distances[currentBuilding];
-                    // Si la nueva distancia es menor, se reemplaza, se ha encontrado un nuevo camino más corto
-                    if (distance < distances[i]) {
-                        distances[i] = distance;
+                    // Si stairsPath es verdadero no hay problema (todos los edificios tienen escalera)
+                    // Si es falso busca edificios con ruta alterna sin escaleras
+                    if (stairsPath || !auxiliaryRoute.hasStairs()) {
+                        // Calcula la distancia para llegar a la ruta, suma la distancia de la ruta con la acumulada actual
+                        int distance = auxiliaryRoute.getDistance() + distances[currentBuilding];
+                        // Si la nueva distancia es menor, se reemplaza, se ha encontrado un nuevo camino más corto
+                        if (distance < distances[i]) {
+                            distances[i] = distance;
+                        }
                     }
                 }
             }
