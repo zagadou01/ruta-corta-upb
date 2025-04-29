@@ -78,7 +78,7 @@ public class Graph {
         }
         routes = auxiliaryRoutesMatrix;
 
-        // Actualizar el indice de los edificios luego del eliminado para que sigan en orden
+        // Actualizar el índice de los edificios luego del eliminado para que sigan en orden
         int auxiliaryBuildingIndex = buildingIndex + 1;
         Building auxiliaryBuilding = buildings.getNode(auxiliaryBuildingIndex);
         while (auxiliaryBuilding != null) {
@@ -108,34 +108,46 @@ public class Graph {
     }
 
     public String[] shortestPath(String initialBuilding, String finalBuilding /*add boolean stairs*/) {
+        // Obtener el índice del edificio de salida y de llegada
         int initialIndex = buildings.getIndex(initialBuilding);
         int finalIndex = buildings.getIndex(finalBuilding);
 
+        // Inicializar array con distancias desde el inicio hasta cada nodo
+        // Distancia del nodo inicial empieza en cero, las demás en "infinito"
         int[] distances = new int[buildings.getSize()];
         Arrays.fill(distances, Integer.MAX_VALUE);
         distances[initialIndex] = 0;
 
-        boolean[] visitedNodes = new boolean[buildings.getSize()];
-        Arrays.fill(visitedNodes, false);
+        // Inicializar array para indicar cuando se visite un nodo
+        boolean[] visitedBuildings = new boolean[buildings.getSize()];
+        Arrays.fill(visitedBuildings, false);
 
+        // Variable que lleva el índice del vértice actual
         int currentBuilding = initialIndex;
 
-        while (!visitedNodes[currentBuilding]) {
-            visitedNodes[currentBuilding] = true;
+        // Ciclo que termina cuando todos los edificios hayan sido visitados
+        while (!visitedBuildings[currentBuilding]) {
+            // Marcamos el edificio actual como visitado
+            visitedBuildings[currentBuilding] = true;
 
+            // Ciclo para asignar la distancia más corta a los edificios adyacentes (vecinos)
             for (int i = 0; i < routes.length; i++) {
-                Route auxiliaryRoutes = routes[currentBuilding][i];
-                if (auxiliaryRoutes != null) {
-                    int distance = auxiliaryRoutes.getDistance() + distances[currentBuilding];
+                // Busca las rutas (aristas) conectadas con el edificio actual
+                Route auxiliaryRoute = routes[currentBuilding][i];
+                if (auxiliaryRoute != null) {
+                    // Calcula la distancia para llegar a la ruta, suma la distancia de la ruta con la acumulada actual
+                    int distance = auxiliaryRoute.getDistance() + distances[currentBuilding];
+                    // Si la nueva distancia es menor, se reemplaza, se ha encontrado un nuevo camino más corto
                     if (distance < distances[i]) {
                         distances[i] = distance;
                     }
                 }
             }
 
+            // Cambia el edificio actual por otro edificio que tenga la menor ruta calculada y no haya sido visitado
             int auxiliaryCurrentDistance = Integer.MAX_VALUE;
             for (int i = 0; i < distances.length; i++) {
-                if (!visitedNodes[i] && distances[i] != Integer.MAX_VALUE) {
+                if (!visitedBuildings[i] && distances[i] != Integer.MAX_VALUE) {
                     if (distances[i] < auxiliaryCurrentDistance) {
                         auxiliaryCurrentDistance = distances[i];
                         currentBuilding = i;
@@ -144,17 +156,26 @@ public class Graph {
             }
         }
 
+        // Creación del camino más corto desde un edificio inicial a otro final
+        // Agregamos como primer edificio el edificio final
         int pathSize = 1;
         String[] path = new String[pathSize];
         path[0] = buildings.getName(finalIndex);
 
+        // Empezamos con la distancia calculada para llegar al edificio final, nos ubicamos en el edificio final
         int currentDistance = distances[finalIndex];
         currentBuilding = finalIndex;
+        // Se va restando la distancia actual hasta llegar a 0, indicando que volvimos al nodo inicial
         while (currentDistance != 0) {
+            // Recorremos todas las rutas conectadas con el edificio actual
             for (int i = 0; i < routes.length; i++) {
                 Route auxiliaryRoutes = routes[currentBuilding][i];
                 if (auxiliaryRoutes != null) {
+                    // Restamos a la distancia actual la distancia de la ruta encontrada
+                    // Comprobamos que la nueva distancia calculada es igual a la minima encontrada
                     int distance = currentDistance - auxiliaryRoutes.getDistance();
+                    // Si es igual, le restamos la distancia de la ruta a la actual, cambiamos a ese edificio
+                    // Aumentamos el tamaño del arreglo, agregamos el edificio al camino
                     if (distances[i] == distance) {
                         currentDistance -= auxiliaryRoutes.getDistance();
                         currentBuilding = i;
@@ -166,6 +187,7 @@ public class Graph {
                 }
             }
         }
+        // Invertimos el camino para que quede de la forma inicio -> fin
         path = reverse(path);
 
         return path;
