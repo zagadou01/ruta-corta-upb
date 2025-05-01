@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -45,6 +46,8 @@ public class OpController extends Controller{
     private MenuButton addList;
     @FXML
     private MenuButton removeList;
+    @FXML
+    private Button exitDev;
 
     private boolean addingBuilding = false;
 
@@ -256,8 +259,6 @@ public class OpController extends Controller{
             cancelAddBuild.setDisable(false);
 
             Circle btnPlace = new Circle(25.5);
-            //btnPlace.setTranslateX(addBuild.getLayoutX());
-            //btnPlace.setTranslateY(addBuild.getLayoutY());
             btnPlace.setId("NEW-B");
             btnPlace.setVisible(false);
 
@@ -673,5 +674,20 @@ public class OpController extends Controller{
         });
 
         return listView;
+    }
+
+    @FXML
+    private void switchMode(){
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Confirmación");
+        alert.setContentText("¿Estas seguro de que quiere salir? los cambios sin guardar se perderán");
+        Optional<ButtonType> action = alert.showAndWait();
+
+        if (action.get() == ButtonType.OK){
+            changeScene("user-view.fxml", exitDev);
+        }
+
     }
 }

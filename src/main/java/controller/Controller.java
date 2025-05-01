@@ -1,7 +1,13 @@
 package controller;
 
+import java.io.IOException;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
@@ -9,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 import model.Building;
 import model.Graph;
 import model.Place;
@@ -142,5 +149,22 @@ public abstract class Controller {
         alert.setContentText(error);
 
         alert.show();
+    }
+
+    protected void changeScene(String sceneName, Node reference){
+
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/" + sceneName));
+            Parent root = fxmlLoader.load();
+            Stage stage = (Stage)reference.getScene().getWindow();
+
+            Scene scene = new Scene(root);
+
+            stage.setScene(scene);
+            stage.show();
+        }catch (IOException e){
+
+            e.printStackTrace();
+        }
     }
 }

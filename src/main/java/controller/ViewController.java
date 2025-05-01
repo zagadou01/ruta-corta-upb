@@ -1,7 +1,14 @@
 package controller;
 
+import java.util.Optional;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.PasswordField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import model.Building;
@@ -12,6 +19,8 @@ public class ViewController extends Controller{
     private Button switchStairs;
     @FXML
     private Button calcRoute;
+    @FXML
+    private Button devMode;
 
     private boolean stairs = false;
     private String bStart = null;
@@ -27,7 +36,7 @@ public class ViewController extends Controller{
     public void calculateRoute(){
         if (!shortRoute){
             if (bStart != null && bEnd != null){
-                String[] ruta = grafo.shortestPath(bStart, bEnd);
+                String[] ruta = grafo.shortestPath(bStart, bEnd, !stairs);
 
                 for (int i = 0; i < ruta.length-1; i ++){
                     
@@ -145,5 +154,57 @@ public class ViewController extends Controller{
 
             
         });
+    }
+
+    @FXML
+    private void switchMode(){
+
+        //no hay necesidad de hacer que sea una autentificiación de la contraseña por ser un proyecto de aula.
+        String rlPass = "admin";
+
+        Dialog<String> dialog = new Dialog<>();
+
+        dialog.setTitle("Acceda al modo operador");
+        dialog.setHeaderText("Inserte una contraseña");
+        ButtonType accept = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
+
+        dialog.getDialogPane().getButtonTypes().addAll(accept, ButtonType.CANCEL);
+
+        //ComboBox, para tener las dos listas donde se mostrarán los edificios.
+        PasswordField pass = new PasswordField();
+        pass.setPromptText("Contraseña");
+
+        //layout
+        GridPane grid = new GridPane();
+
+        grid.setHgap(10);
+        grid.setVgap(10);
+
+        grid.add(pass, 0, 0);
+
+        dialog.getDialogPane().setContent(grid);
+
+        // Obtener el resultado al darle ACCEPT
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == accept) {
+                return pass.getText();
+            }
+            return null;
+        });
+
+        // Mostrar y manejar resultado
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(pair -> {
+            
+            //Si el nodo de inicio es diferente del nodo de llegada, para evitar eliminar todas las rutas de un edificio
+            if (pair.equals(rlPass)){
+                changeScene("operator-view.fxml", devMode);
+            }else{
+                showError("La contraseña no es válida.");
+            }
+        });
+
+
     }
 }

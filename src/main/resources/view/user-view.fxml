@@ -18,7 +18,7 @@
                <children>
                   <TilePane prefHeight="26.0" prefWidth="660.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button mnemonicParsing="false" text="Dev mode">
+                        <Button fx:id="devMode" mnemonicParsing="false" onAction="#switchMode" text="Dev mode">
                            <TilePane.margin>
                               <Insets right="10.0" />
                            </TilePane.margin>
