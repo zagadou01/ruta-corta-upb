@@ -9,8 +9,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ToggleButton?>
 
-<VBox fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewController">
+<VBox fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewController" stylesheets="@../view/styles.css">
    <children>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
@@ -18,7 +19,8 @@
                <children>
                   <TilePane prefHeight="26.0" prefWidth="660.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button fx:id="devMode" mnemonicParsing="false" onAction="#switchMode" text="Dev mode">
+			     <Button fx:id="devMode" mnemonicParsing="false" onAction="#switchMode" text="Dev mode">
+
                            <TilePane.margin>
                               <Insets right="10.0" />
                            </TilePane.margin>
@@ -49,7 +51,7 @@
                         <AnchorPane fx:id="backPane" prefHeight="720.0">
                            <children>
                               <Button fx:id="calcRoute" layoutX="542.0" layoutY="643.0" mnemonicParsing="false" onAction="#calculateRoute" text="Calcular Ruta" />
-                              <Button fx:id="switchStairs" layoutX="628.0" layoutY="1.0" mnemonicParsing="false" onAction="#setStairs" text="Escaleras" />
+                              <ToggleButton fx:id="switchStairs" layoutX="628.0" layoutY="10.0" mnemonicParsing="false" onAction="#setStairs" styleClass="stairs_button" />
                            </children>
                         </AnchorPane>
                      </children>

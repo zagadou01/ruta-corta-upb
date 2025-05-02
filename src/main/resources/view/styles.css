@@ -1,0 +1,22 @@
+
+.stairs_button {
+    -fx-background-image: url('../icons/icon_stairs.png');
+
+    -fx-background-size: 26px 26px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+
+    -fx-background-color:#9900cc;
+    -fx-border-color: transparent;
+
+    -fx-pref-width: 32px;
+    -fx-pref-height: 32px;
+
+    -fx-background-radius: 50%;    
+        
+}
+
+.stairs_button:selected {
+    -fx-background-color: #6b0066; }
+
+

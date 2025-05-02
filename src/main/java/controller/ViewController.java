@@ -12,11 +12,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import model.Building;
+import javafx.scene.control.ToggleButton;
 
 public class ViewController extends Controller{
     
     @FXML
-    private Button switchStairs;
+    private ToggleButton switchStairs;
     @FXML
     private Button calcRoute;
     @FXML
