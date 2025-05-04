@@ -47,11 +47,11 @@ public abstract class Controller {
         mainAnchor.setPrefSize(1080, 720);
 
         //Listeners para agregar automáticamente Nodos o Aristas a la GUI
-        grafo.setOnBuildingAdded(nodo -> {
+        FileController.setOnBuildingAdded(nodo -> {
             Platform.runLater(() -> createBuilding(nodo));
         });
 
-        grafo.setOnRouteAdded(route -> {
+        FileController.setOnRouteAdded(route -> {
             Platform.runLater(() -> createRoute(route, grafo));
         });
 
@@ -71,6 +71,8 @@ public abstract class Controller {
         grafo.addRoute("C", "B", 0, false);
         grafo.addRoute("C", "J", 0, false);
         grafo.addRoute("A", "J", 100, false);
+
+        //FileController.
         grafo.print();
     }
 

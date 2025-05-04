@@ -515,6 +515,7 @@ public class OpController extends Controller{
      * @param point
      */
     private void editBuildingPlaces(Building building, Point point){
+        //TODO hay que cambiar los atributos para los cambios venideros: Sólo se va a recibir el nombre del edificio
         Dialog<String> dialog = new Dialog<>();
 
         // Lista de lugares.

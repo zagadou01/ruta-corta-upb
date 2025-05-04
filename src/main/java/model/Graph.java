@@ -1,35 +1,19 @@
 package model;
 
 import java.util.Arrays;
-import java.util.function.Consumer;
 
 // Grafo
 public class Graph {
     private final LinkedList<Building> buildings; // Lista de vértices
     private Route[][] routes; // Matriz de adyacencia
 
-    private Consumer<Building> onBuildingAdded;
-    private Consumer<Route> onRouteAdded;
-
     public Graph() {
         this.buildings = new LinkedList<>();
         this.routes = new Route[0][0];
     }
 
-    //Estos dos métodos son para que el Grafo le avise a la interfaz cuando se añaden nuevas rutas y edificios.
-    public void setOnBuildingAdded(Consumer<Building> callback) {
-        this.onBuildingAdded = callback;
-    }
-
-    public void setOnRouteAdded(Consumer<Route> callback) {
-        this.onRouteAdded = callback;
-    }
-
     public void addBuilding(Building building) {
         buildings.add(building);
-        
-        //Avisar la interfaz de que se añadió una ruta nueva.
-        if (onBuildingAdded != null) onBuildingAdded.accept(building);
 
         int size = buildings.getSize();
         Route[][] auxiliar = new Route[size][size];
@@ -92,11 +76,10 @@ public class Graph {
         int initialIndex = buildings.getIndex(initialBuilding);
         int finalIndex = buildings.getIndex(finalBuilding);
 
-        routes[initialIndex][finalIndex] = new Route(distance, stairs, initialBuilding, finalBuilding);
-        routes[finalIndex][initialIndex] = new Route(distance, stairs, initialBuilding, finalBuilding);
+        Route route = new Route(distance, stairs, initialBuilding, finalBuilding);
 
-        //Avisar la interfaz de que se añadió una ruta nueva.
-        if (onRouteAdded != null) onRouteAdded.accept(new Route(distance, stairs, initialBuilding, finalBuilding));
+        routes[initialIndex][finalIndex] = route;
+        routes[finalIndex][initialIndex] = route;
     }
 
     public void removeRoute(String initialBuilding, String finalBuilding) {
