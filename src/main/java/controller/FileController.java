@@ -4,31 +4,32 @@ import model.*;
 import java.io.*;
 
 public class FileController {
-    public static void addBuilding(Building building) {
-        Graph graph = createGraph();
+    public static void addBuilding(Graph graph, Building building) {
         graph.addBuilding(building);
         saveGraph(graph);
     }
 
-    public static void removeBuilding(String buildingName) {
-        Graph graph = createGraph();
+    public static void removeBuilding(Graph graph, String buildingName) {
         graph.removeBuilding(buildingName);
         saveGraph(graph);
     }
 
-    public static void addRoute(String initialBuilding, String finalBuilding, int distance, boolean stairs) {
-        Graph graph = createGraph();
+    public static void addRoute(Graph graph, String initialBuilding, String finalBuilding, int distance, boolean stairs) {
         graph.addRoute(initialBuilding, finalBuilding, distance, stairs);
         saveGraph(graph);
     }
 
-    public static void removeRoute(String initialBuilding, String finalBuilding) {
-        Graph graph = createGraph();
+    public static void removeRoute(Graph graph, String initialBuilding, String finalBuilding) {
         graph.removeRoute(initialBuilding, finalBuilding);
         saveGraph(graph);
     }
 
-    private static Graph createGraph() {
+    public static void changePlaces(Graph graph, String buildingName, LinkedList<Place> places) {
+        graph.getBuildings().getNode(buildingName).setPlaces(places);
+        saveGraph(graph);
+    }
+
+    public static Graph createGraph() {
         Graph graph = new Graph();
         LinkedList<Building> buildings = readBuildings();
         Route[][] routes = readRoutes(buildings);
