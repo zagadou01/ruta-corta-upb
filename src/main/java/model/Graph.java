@@ -107,7 +107,7 @@ public class Graph {
         routes[finalIndex][initialIndex] = null;
     }
 
-    public String[] shortestPath(String initialBuilding, String finalBuilding, Boolean stairsPath) {
+    public String[] shortestPath(String initialBuilding, String finalBuilding, boolean stairsPath) {
         // Obtener el índice del edificio de salida y de llegada
         int initialIndex = buildings.getIndex(initialBuilding);
         int finalIndex = buildings.getIndex(finalBuilding);
