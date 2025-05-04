@@ -166,12 +166,17 @@ public class Graph {
         String[] path = new String[pathSize];
         path[0] = buildings.getName(finalIndex);
 
+        if (distances[finalIndex] == Integer.MAX_VALUE) {
+            return null;
+        }
+
         // Empezamos con la distancia calculada para llegar al edificio final, nos ubicamos en el edificio final
         int currentDistance = distances[finalIndex];
         currentBuilding = finalIndex;
         // Se va restando la distancia actual hasta llegar a 0, indicando que volvimos al nodo inicial
         while (currentDistance != 0) {
             // Recorremos todas las rutas conectadas con el edificio actual
+            boolean routeFound = false;
             for (int i = 0; i < routes.length; i++) {
                 Route auxiliaryRoutes = routes[currentBuilding][i];
                 if (auxiliaryRoutes != null) {
@@ -186,9 +191,13 @@ public class Graph {
                         path = Arrays.copyOf(path, pathSize + 1);
                         path[pathSize] = buildings.getName(currentBuilding);
                         pathSize++;
+                        routeFound = true;
                         break;
                     }
                 }
+            }
+            if (!routeFound) {
+                return null;
             }
         }
         // Invertimos el camino para que quede de la forma inicio -> fin
