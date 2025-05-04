@@ -19,9 +19,13 @@ public class TerminalMain {
 
         graph.print();
 
-        String[] path = graph.shortestPath("A", "J", true);
+        String[] path = graph.shortestPath("A", "J", false);
 
-        printPath(path);
+        if (path != null) {
+            printPath(path);
+        } else {
+            System.out.println("NO HAY CAMINO");
+        }
     }
 
     private static void printPath(String[] path) {
