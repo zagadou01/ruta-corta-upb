@@ -91,5 +91,23 @@
 
 }
 
+.white_button{
+    -fx-background-color: #EFEFEF; 
+    -fx-text-fill: black; 
+    -fx-background-radius: 20; 
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+
+}
+
+.white_button:hover{
+    -fx-background-color: #e0e0e0; 
+    -fx-text-fill: black; 
+
+}
+
+.menu-item.white_button:hover {
+    -fx-text-fill: black;
+}
 
 
