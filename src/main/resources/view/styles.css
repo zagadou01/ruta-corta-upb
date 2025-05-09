@@ -1,0 +1,113 @@
+
+.colorful_box{
+    -fx-background-color: Linear-gradient(to left, #CC00FF, #CC3365);
+    -fx-border-color: transparent transparent Linear-gradient(to left, #4a148c,  #880e4f) transparent;
+    -fx-border-width: 0 0 2px 0;
+}
+
+.white_box{
+    -fx-background-color: #EAEAEA;
+    -fx-border-color: #C8C8C8;
+    -fx-border-width: 0 0 0 2px;
+}
+
+
+.admin_button{
+    -fx-background-image: url('../icons/admin_icon.png');
+     
+    -fx-background-size: 22px 22px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+
+    -fx-background-color: transparent; 
+
+    -fx-border-radius: 32;
+    -fx-border-width: 2px;
+    -fx-border-color: #ffffff;
+
+    -fx-pref-width: 32px;
+    -fx-pref-height: 32px;
+
+    -fx-background-radius: 50%;    
+    -fx-cursor: hand;
+
+}
+
+.help_button{
+    -fx-background-image: url('../icons/help_icon.png');
+    -fx-background-size: 18px 18px; 
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+
+    -fx-pref-width: 22px;
+    -fx-pref-height: 22px;
+    -fx-min-width: 22px;
+    -fx-min-height: 22px;
+
+    -fx-border-width: 2px;
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 50%;
+
+    -fx-cursor: hand;
+
+
+    }
+
+.stairs_button{
+    -fx-background-image: url('../icons/stairs_icon.png');
+    -fx-background-size: 26px 26px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color:#a88a8a;
+    -fx-border-color: transparent;
+
+    -fx-pref-width: 32px;
+    -fx-pref-height: 32px;
+
+    -fx-background-radius: 50%;   
+    -fx-cursor: hand;
+        
+}
+
+.stairs_button:selected{
+    -fx-background-color: #e53935; 
+
+}
+
+.purple_button{
+    -fx-background-color: #cc33cc; 
+    -fx-text-fill: white; 
+    -fx-background-radius: 20; 
+    -fx-border-radius: 20;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+
+}
+
+.purple_button:hover{
+    -fx-background-color: #992699; 
+
+}
+
+.white_button{
+    -fx-background-color: #EFEFEF; 
+    -fx-text-fill: black; 
+    -fx-background-radius: 20; 
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+
+}
+
+.white_button:hover{
+    -fx-background-color: #e0e0e0; 
+    -fx-text-fill: black; 
+
+}
+
+.menu-item.white_button:hover {
+    -fx-text-fill: black;
+}
+
+
