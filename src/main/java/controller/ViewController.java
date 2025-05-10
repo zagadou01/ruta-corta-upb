@@ -70,7 +70,7 @@ public class ViewController extends Controller{
                         System.out.println(i);
                     }        
                 }else{
-                    showPopUp(AlertType.INFORMATION, "INFO", "Ruta inexistente", "La ruta entre " + bStart + " y " + bEnd + "No existe.");
+                    showPopUp(AlertType.INFORMATION, "INFO", "Ruta inexistente", "La ruta entre " + bStart + " y " + bEnd + " no existe.");
                 }
                 shortRoute = true;
             }else{
@@ -86,7 +86,7 @@ public class ViewController extends Controller{
      * si las escaleras se están activando o quitarle el punteado a todas si se están desactivando.
      */
     private void setStairs(){
-
+  
         for(int i=0; i<backPane.getChildren().size(); i++){
 
             if(backPane.getChildren().get(i) instanceof Line) {
@@ -96,7 +96,7 @@ public class ViewController extends Controller{
                 if (stairs){
                     l.getStrokeDashArray().clear();
                 }else{
-                    if (l.getId().charAt(6) == '1'){
+                    if (l.getId().charAt(l.getId().length() - 1) == '1'){
 
                         l.getStrokeDashArray().add(6d);
                     }

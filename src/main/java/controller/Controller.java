@@ -12,7 +12,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -157,6 +160,23 @@ public abstract class Controller {
 
         alert.setTitle(title);
         alert.setHeaderText(header);
+
+        TextArea textArea = new TextArea(info);
+        textArea.setWrapText(true);
+        textArea.setEditable(false);
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+
+        // Hacer que el área de texto se expanda
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        GridPane content = new GridPane();
+        content.setMaxWidth(Double.MAX_VALUE);
+        content.add(textArea, 0, 0);
+
+        alert.getDialogPane().setContent(content);
+
         alert.setContentText(info);
 
         alert.show();
