@@ -174,9 +174,8 @@ public class Graph {
         int currentDistance = distances[finalIndex];
         currentBuilding = finalIndex;
         // Se va restando la distancia actual hasta llegar a 0, indicando que volvimos al nodo inicial
-        while (currentDistance != 0) {
+         do {
             // Recorremos todas las rutas conectadas con el edificio actual
-            boolean routeFound = false;
             for (int i = 0; i < routes.length; i++) {
                 Route auxiliaryRoutes = routes[currentBuilding][i];
                 if (auxiliaryRoutes != null) {
@@ -191,15 +190,11 @@ public class Graph {
                         path = Arrays.copyOf(path, pathSize + 1);
                         path[pathSize] = buildings.getName(currentBuilding);
                         pathSize++;
-                        routeFound = true;
                         break;
                     }
                 }
             }
-            if (!routeFound) {
-                return null;
-            }
-        }
+        } while (currentDistance != 0 || currentBuilding != initialIndex);
         // Invertimos el camino para que quede de la forma inicio -> fin
         path = reverse(path);
 
