@@ -101,13 +101,22 @@
 }
 
 .white_button:hover{
-    -fx-background-color: #e0e0e0; 
+    -fx-background-color: #D6D6D6; 
     -fx-text-fill: black; 
-
 }
 
-.menu-item.white_button:hover {
+.menu-item:focused .label {
     -fx-text-fill: black;
 }
+
+.context-menu {
+    -fx-skin: "com.sun.javafx.scene.control.skin.ContextMenuSkin";
+    -fx-background-color: #EFEFEF;
+    -fx-pref-width: 90px;
+    -fx-background-radius: 15;
+    -fx-padding: 5px, 10px; 
+
+}
+
 
 

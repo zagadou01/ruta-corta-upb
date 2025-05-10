@@ -21,33 +21,25 @@
                <children>
                   <TilePane prefHeight="26.0" prefWidth="660.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button fx:id="exitDev" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#switchMode" styleClass="admin_button">
+                        <Button fx:id="exitDev" onAction="#switchMode" alignment="CENTER_LEFT" mnemonicParsing="false" styleClass = "admin_button">
                            <TilePane.margin>
-                              <Insets right="10.0" />
+                              <Insets left="-67.0" />
                            </TilePane.margin>
                         </Button>
-                        <MenuButton fx:id="addList" alignment="TOP_LEFT" mnemonicParsing="false" styleClass="white_button" text="Agregar">
+                        <MenuButton fx:id="addList" alignment="CENTER_LEFT" mnemonicParsing="false" text="Agregar" styleClass = "white_button">
                           <items>
-                            <MenuItem fx:id="addBuild" mnemonicParsing="false" onAction="#addNewBuilding" text="Edificio" />
-                            <MenuItem fx:id="addRoute" mnemonicParsing="false" onAction="#addNewRoute" styleClass="white_button" text="Ruta" />
+                            <MenuItem fx:id="addBuild" mnemonicParsing="false" onAction="#addNewBuilding" text="Edificio" styleClass = "white_button"/>
+                            <MenuItem fx:id="addRoute" mnemonicParsing="false" onAction="#addNewRoute" text="Ruta" styleClass = "white_button"/>
                           </items>
                            <TilePane.margin>
                               <Insets right="10.0" />
                            </TilePane.margin>
                         </MenuButton>
-                        <MenuButton fx:id="removeList" alignment="TOP_LEFT" mnemonicParsing="false" styleClass="white_button" text="Eliminar">
-                            <items>
-                                <CustomMenuItem>
-                                    <content>
-                                        <Label styleClass="white_button" text="Agregar Edificio" />
-                                    </content>
-                                </CustomMenuItem>
-                                <CustomMenuItem>
-                                    <content>
-                                        <Label text="Agregar Ruta" />
-                                    </content>
-                                </CustomMenuItem>
-                            </items>                  
+                        <MenuButton fx:id="removeList" alignment="CENTER_LEFT" mnemonicParsing="false" text="Eliminar" styleClass = "white_button">
+                          <items>
+                            <MenuItem fx:id="delBuild" mnemonicParsing="false" onAction="#deleteBuilding" text="Edificio" styleClass = "white_button"/>
+                            <MenuItem fx:id="delRoute" mnemonicParsing="false" onAction="#deleteRoute" text="Ruta" styleClass = "white_button"/>
+                          </items>     
                         </MenuButton>
                      </children>
                   </TilePane>
@@ -66,27 +58,30 @@
             </HBox>
         </items>
       </ToolBar>
-      <HBox prefHeight="678.0" prefWidth="1080.0">
+      <HBox prefHeight="720.0" prefWidth="1080.0">
          <children>
-            <StackPane prefHeight="589.0" prefWidth="847.0">
+            <StackPane prefHeight="720.0" prefWidth="857.0">
                <children>
-                  <AnchorPane fx:id="frontPane" prefHeight="610.0" prefWidth="847.0">
+                  <AnchorPane fx:id="frontPane" prefHeight="720.0" prefWidth="847.0">
                      <children>
                         <AnchorPane fx:id="backPane" />
-                        <Button layoutX="690" layoutY="635.0" mnemonicParsing="false" styleClass="purple_button" text="Guardar Cambios" />
-                        <Button fx:id="cancelAddBuild" disable="true" layoutX="781.0" layoutY="600.0" mnemonicParsing="false" onAction="#addNewBuilding" text="Cancelar" visible="false" />
+                        <Button fx:id="cancelAddBuild" disable="true" layoutX="760.0" layoutY="635.0" mnemonicParsing="false" onAction="#addNewBuilding" text="Cancelar" visible="false" />
                      </children>
                   </AnchorPane>
                </children>
             </StackPane>
-            <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="230.0" styleClass="white_box" HBox.hgrow="ALWAYS">
-               <children>
-                  <Label alignment="CENTER" prefHeight="18.0" text="Lugares Relevantes:" VBox.vgrow="ALWAYS" />
-                  <Label fx:id="placesList" alignment="TOP_CENTER" prefHeight="600.0" prefWidth="190.0" text="[Ninguno]" textAlignment="CENTER" VBox.vgrow="ALWAYS" />
-               </children>
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
+            <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="230.0" HBox.hgrow="ALWAYS" styleClass = "white_box">
+                <children>
+                    <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="18.0" text="Lugares Relevantes:">
+                       <VBox.margin>
+                          <Insets />
+                       </VBox.margin>
+                    </Label>
+                    <Label fx:id="placesList" alignment="TOP_CENTER" prefHeight="600.0" prefWidth="190.0" text="[Ninguno]" textAlignment="CENTER" />
+                 </children>
+                 <padding>
+                    <Insets top="10.0" />
+                 </padding>
             </VBox>
          </children>
       </HBox>
