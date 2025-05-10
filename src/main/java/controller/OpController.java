@@ -18,6 +18,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -49,6 +50,9 @@ public class OpController extends Controller{
     private Button exitDev;
 
     private boolean addingBuilding = false;
+
+    //Este es un String para el botón de ayuda. Como no hay cambio de idiomas, resulta fácil hacerlo como un String
+    private String infoHelp = "hola op";
 
     /**
      * Crea un edificio (Point) y le asigna la función editBuildingPlaces(Building, Point) al darle click para editar sus lugares.
@@ -170,10 +174,10 @@ public class OpController extends Controller{
 
                     FileController.addRoute(grafo, b1, b2, Integer.parseInt(pair[2]), pair[3] == "1");
                 }else{
-                    showError("La ruta que conecta [" + b1 + "] y [" + b2 + "] ya existe.");
+                    showPopUp(AlertType.ERROR, "ERROR", "Ha ocurrido un error", "La ruta que conecta [" + b1 + "] y [" + b2 + "] ya existe.");
                 }
             }else{
-                showError("No se puede añadir una ruta hacia el mismo edificio.");
+                showPopUp(AlertType.ERROR, "ERROR", "Ha ocurrido un error", "No se puede añadir una ruta hacia el mismo edificio.");
             }
 
             grafo.print();
@@ -233,7 +237,7 @@ public class OpController extends Controller{
             if (pair[0] != pair[1]){
                 deleteLineRoute(pair[0], pair[1]);
             }else{
-                showError("Los edificios inicial y final deben ser diferentes.");
+                showPopUp(AlertType.ERROR, "ERROR", "Ha ocurrido un error", "Los edificios inicial y final deben ser diferentes.");
             }
         });
     }
@@ -454,7 +458,7 @@ public class OpController extends Controller{
                 FileController.addBuilding(grafo, newBuild);
                 grafo.print();
             }else{
-                showError("Debe especificar un nombre para el edificio.");
+                showPopUp(AlertType.ERROR, "ERROR", "Ha ocurrido un error", "Debe especificar un nombre para el edificio.");
             }
         });
     }
@@ -750,6 +754,10 @@ public class OpController extends Controller{
         if (action.get() == ButtonType.OK){
             changeScene("user-view.fxml", exitDev);
         }
+    }
 
+    @FXML
+    protected void showHelp(){
+        showPopUp(AlertType.INFORMATION, "Ayuda", "Esta es una guía para el uso del programa.", infoHelp);
     }
 }

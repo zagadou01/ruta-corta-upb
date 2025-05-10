@@ -3,6 +3,7 @@ package controller;
 import java.util.Optional;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -27,6 +28,9 @@ public class ViewController extends Controller{
     private String bStart = null;
     private String bEnd = null;
     private boolean shortRoute = false;
+
+    //Este es un String para el botón de ayuda. Como no hay cambio de idiomas, resulta fácil hacerlo como un String
+    private String infoHelp = "Para buscar una ruta entre dos edificios, presione los botones con el nombre de los edificios correspondientes y presione el botón Calcular Ruta, entonces podrá ver los caminos que debe tomar resaltados en otro color.\nSi necesita obtener las rutas sin escaleras, presione el botón en la parte superior izquierda del mapa para activar o desactivar esta opción.";
 
     @FXML
     /**
@@ -66,11 +70,11 @@ public class ViewController extends Controller{
                         System.out.println(i);
                     }        
                 }else{
-                    showError("No existe una ruta desde " + bStart + " hasta " + bEnd);
+                    showPopUp(AlertType.INFORMATION, "INFO", "Ruta inexistente", "La ruta entre " + bStart + " y " + bEnd + "No existe.");
                 }
                 shortRoute = true;
             }else{
-                showError("Debe seleccionar un edificio inicial y uno final.");
+                showPopUp(AlertType.ERROR, "ERROR", "Ha ocurrido un error", "Debe seleccionar un edificio inicial y uno final.");
             }
         }
         System.out.println("grafo.Dijkstra(Nodo inicio: " + bStart + ", Nodo fin: " + bEnd + ", Escaleras? " + stairs + ")");
@@ -205,10 +209,13 @@ public class ViewController extends Controller{
             if (pair.equals(rlPass)){
                 changeScene("operator-view.fxml", devMode);
             }else{
-                showError("La contraseña no es válida.");
+                showPopUp(AlertType.ERROR, "ERROR", "Ha ocurrido un error", "La contraseña no es válida.");
             }
         });
+    }
 
-
+    @FXML
+    protected void showHelp(){
+        showPopUp(AlertType.INFORMATION, "Ayuda", "Esta es una guía para el uso del programa.", infoHelp);
     }
 }

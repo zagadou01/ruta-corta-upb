@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -33,6 +34,10 @@ public abstract class Controller {
     protected AnchorPane backPane;
     @FXML
     protected AnchorPane frontPane;
+    @FXML
+    protected Button help;
+
+    private String infoHelp;
 
     protected Graph grafo;
 
@@ -147,12 +152,12 @@ public abstract class Controller {
         System.out.println(line.getId());
     }
 
-    protected void showError(String error){
-        Alert alert = new Alert(AlertType.ERROR);
+    protected void showPopUp(AlertType type, String title, String header, String info){
+        Alert alert = new Alert(type);
 
-        alert.setTitle("ERROR");
-        alert.setHeaderText("Ha ocurrido un error");
-        alert.setContentText(error);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(info);
 
         alert.show();
     }

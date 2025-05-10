@@ -3,23 +3,23 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ToggleButton?>
 
-<VBox fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewController" stylesheets="@../view/styles.css">
+<VBox fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../view/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewController">
    <children>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" styleClass = "colorful_box">
+      <ToolBar prefHeight="40.0" prefWidth="200.0" styleClass="colorful_box">
         <items>
             <HBox prefHeight="32">
                <children>
                   <TilePane prefHeight="26.0" prefWidth="660.0" HBox.hgrow="ALWAYS">
                      <children>
-			     <Button fx:id="devMode" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#switchMode" styleClass = "admin_button">
+			     <Button fx:id="devMode" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#switchMode" styleClass="admin_button">
 
                            <TilePane.margin>
                               <Insets right="10.0" />
@@ -29,7 +29,7 @@
                   </TilePane>
                   <TilePane alignment="CENTER_RIGHT" prefHeight="26.0" prefWidth="406.0" HBox.hgrow="ALWAYS">
                      <children>
-                      <Button alignment="CENTER_RIGHT" mnemonicParsing="false" styleClass = "help_button"/>
+                      <Button fx:id="help" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#showHelp" styleClass="help_button" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -58,7 +58,7 @@
                   </AnchorPane>
                </children>
             </StackPane>
-            <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="230.0" styleClass = "white_box">
+            <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="230.0" styleClass="white_box">
                <children>
                   <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="18.0" text="Lugares Relevantes:">
                      <VBox.margin>
