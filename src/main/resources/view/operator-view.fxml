@@ -15,7 +15,7 @@
 
 <VBox fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OpController" stylesheets="@../view/styles.css" >
    <children>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" styleClass = "colorful_box">
+      <ToolBar prefHeight="20.0" prefWidth="200.0" styleClass = "colorful_box">
         <items>
             <HBox prefHeight="32">
                <children>
@@ -28,7 +28,7 @@
                         </Button>
                         <MenuButton fx:id="addList" alignment="TOP_LEFT" mnemonicParsing="false" text="Agregar" styleClass = "white_button">
                           <items>
-                            <MenuItem fx:id="addBuild" mnemonicParsing="false" onAction="#addNewBuilding" text="Edificio" />
+                            <MenuItem fx:id="addBuild" mnemonicParsing="false" onAction="#addNewBuilding" text="Edificio" styleClass = "white_button"/>
                             <MenuItem fx:id="addRoute" mnemonicParsing="false" onAction="#addNewRoute" text="Ruta" styleClass = "white_button"/>
                           </items>
                            <TilePane.margin>
@@ -36,18 +36,10 @@
                            </TilePane.margin>
                         </MenuButton>
                         <MenuButton fx:id="removeList" alignment="TOP_LEFT" mnemonicParsing="false" text="Eliminar" styleClass = "white_button">
-                            <items>
-                                <CustomMenuItem >
-                                    <content>
-                                        <Label text="Agregar Edificio" styleClass = "white_button" />
-                                    </content>
-                                </CustomMenuItem>
-                                <CustomMenuItem>
-                                    <content>
-                                        <Label text="Agregar Ruta"/>
-                                    </content>
-                                </CustomMenuItem>
-                            </items>                  
+                          <items>
+                            <MenuItem fx:id="delBuild" mnemonicParsing="false" onAction="#deleteBuilding" text="Edificio" styleClass = "white_button"/>
+                            <MenuItem fx:id="delRoute" mnemonicParsing="false" onAction="#deleteRoute" text="Ruta" styleClass = "white_button"/>
+                          </items>     
                         </MenuButton>
                      </children>
                   </TilePane>
