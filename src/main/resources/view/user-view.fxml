@@ -19,8 +19,7 @@
                <children>
                   <TilePane prefHeight="26.0" prefWidth="660.0" HBox.hgrow="ALWAYS">
                      <children>
-			     <Button fx:id="devMode" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#switchMode" styleClass = "admin_button">
-
+			            <Button fx:id="devMode" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#switchMode" styleClass = "admin_button">
                            <TilePane.margin>
                               <Insets right="10.0" />
                            </TilePane.margin>

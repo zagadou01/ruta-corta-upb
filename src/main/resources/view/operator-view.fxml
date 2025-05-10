@@ -15,18 +15,18 @@
 
 <VBox fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OpController" stylesheets="@../view/styles.css" >
    <children>
-      <ToolBar prefHeight="20.0" prefWidth="200.0" styleClass = "colorful_box">
+      <ToolBar prefHeight="40.0" prefWidth="200.0" styleClass = "colorful_box">
         <items>
             <HBox prefHeight="32">
                <children>
                   <TilePane prefHeight="26.0" prefWidth="660.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button fx:id="exitDev" onAction="#switchMode" alignment="TOP_LEFT" mnemonicParsing="false" styleClass = "admin_button">
+                        <Button fx:id="exitDev" onAction="#switchMode" alignment="CENTER_LEFT" mnemonicParsing="false" styleClass = "admin_button">
                            <TilePane.margin>
-                              <Insets right="10.0" />
+                              <Insets left="-67.0" />
                            </TilePane.margin>
                         </Button>
-                        <MenuButton fx:id="addList" alignment="TOP_LEFT" mnemonicParsing="false" text="Agregar" styleClass = "white_button">
+                        <MenuButton fx:id="addList" alignment="CENTER_LEFT" mnemonicParsing="false" text="Agregar" styleClass = "white_button">
                           <items>
                             <MenuItem fx:id="addBuild" mnemonicParsing="false" onAction="#addNewBuilding" text="Edificio" styleClass = "white_button"/>
                             <MenuItem fx:id="addRoute" mnemonicParsing="false" onAction="#addNewRoute" text="Ruta" styleClass = "white_button"/>
@@ -35,7 +35,7 @@
                               <Insets right="10.0" />
                            </TilePane.margin>
                         </MenuButton>
-                        <MenuButton fx:id="removeList" alignment="TOP_LEFT" mnemonicParsing="false" text="Eliminar" styleClass = "white_button">
+                        <MenuButton fx:id="removeList" alignment="CENTER_LEFT" mnemonicParsing="false" text="Eliminar" styleClass = "white_button">
                           <items>
                             <MenuItem fx:id="delBuild" mnemonicParsing="false" onAction="#deleteBuilding" text="Edificio" styleClass = "white_button"/>
                             <MenuItem fx:id="delRoute" mnemonicParsing="false" onAction="#deleteRoute" text="Ruta" styleClass = "white_button"/>
@@ -58,27 +58,30 @@
             </HBox>
         </items>
       </ToolBar>
-      <HBox prefHeight="678.0" prefWidth="1080.0">
+      <HBox prefHeight="720.0" prefWidth="1080.0">
          <children>
-            <StackPane prefHeight="589.0" prefWidth="847.0">
+            <StackPane prefHeight="720.0" prefWidth="857.0">
                <children>
-                  <AnchorPane fx:id="frontPane" prefHeight="610.0" prefWidth="847.0">
+                  <AnchorPane fx:id="frontPane" prefHeight="720.0" prefWidth="847.0">
                      <children>
                         <AnchorPane fx:id="backPane" />
-                        <Button layoutX="690" layoutY="635.0" mnemonicParsing="false" text="Guardar Cambios" styleClass = "purple_button" />
-                        <Button fx:id="cancelAddBuild" disable="true" layoutX="781.0" layoutY="600.0" mnemonicParsing="false" onAction="#addNewBuilding" text="Cancelar" visible="false" />
+                        <Button fx:id="cancelAddBuild" disable="true" layoutX="760.0" layoutY="635.0" mnemonicParsing="false" onAction="#addNewBuilding" text="Cancelar" visible="false" />
                      </children>
                   </AnchorPane>
                </children>
             </StackPane>
             <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="230.0" HBox.hgrow="ALWAYS" styleClass = "white_box">
-               <children>
-                  <Label alignment="CENTER" prefHeight="18.0" text="Lugares Relevantes:" VBox.vgrow="ALWAYS" />
-                  <Label fx:id="placesList" alignment="TOP_CENTER" prefHeight="600.0" prefWidth="190.0" text="[Ninguno]" textAlignment="CENTER" VBox.vgrow="ALWAYS" />
-               </children>
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
+                <children>
+                    <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="18.0" text="Lugares Relevantes:">
+                       <VBox.margin>
+                          <Insets />
+                       </VBox.margin>
+                    </Label>
+                    <Label fx:id="placesList" alignment="TOP_CENTER" prefHeight="600.0" prefWidth="190.0" text="[Ninguno]" textAlignment="CENTER" />
+                 </children>
+                 <padding>
+                    <Insets top="10.0" />
+                 </padding>
             </VBox>
          </children>
       </HBox>
