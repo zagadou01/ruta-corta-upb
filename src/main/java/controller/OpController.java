@@ -25,7 +25,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import model.Building;
-import model.Graph;
 import model.Place;
 import model.Route;
 import model.LinkedList;
@@ -62,7 +61,7 @@ public class OpController extends Controller{
 
         //Añadir funcionalidades al botón.
         boton.setOnAction(e ->{
-            editBuildingPlaces(building, boton);
+            editBuildingPlaces(building.getName());
         });
     }
 
@@ -70,8 +69,8 @@ public class OpController extends Controller{
      * Crea una línea (Line) y una etiqueta (Label, la cual indica la distancia de la ruta) entre dos Edificios (Point)
      */
     @Override
-    protected void createRoute(Route route, Graph grafo){
-        super.createRoute(route, grafo);
+    protected void createRoute(Route route){
+        super.createRoute(route);
 
         //Obtiene la ruta creada en la clase padre.
         String strStart = route.getBuildings()[0];
@@ -169,7 +168,7 @@ public class OpController extends Controller{
 
                 if (routes[buildings.getIndex(b1)][buildings.getIndex(b2)] == null){
 
-                    grafo.addRoute(b1, b2, Integer.parseInt(pair[2]), pair[3] == "1");
+                    FileController.addRoute(grafo, b1, b2, Integer.parseInt(pair[2]), pair[3] == "1");
                 }else{
                     showError("La ruta que conecta [" + b1 + "] y [" + b2 + "] ya existe.");
                 }
@@ -452,7 +451,7 @@ public class OpController extends Controller{
                 
                 newBuild.setPlaces(placesToList(pair[1]));
 
-                grafo.addBuilding(newBuild);
+                FileController.addBuilding(grafo, newBuild);
                 grafo.print();
             }else{
                 showError("Debe especificar un nombre para el edificio.");
@@ -483,7 +482,7 @@ public class OpController extends Controller{
                         i--;
 
                         //Se elimina la ruta del grafo.
-                        grafo.removeRoute(bStart, bEnd);
+                        FileController.removeRoute(grafo, bStart, bEnd);
                     }
                 }
             }
@@ -499,7 +498,7 @@ public class OpController extends Controller{
         Point p = (Point)frontPane.lookup("#B-" + name);
 
         frontPane.getChildren().remove(p);
-        grafo.removeBuilding(name);
+        FileController.removeBuilding(grafo, name);
         
         grafo.print();
     }
@@ -514,23 +513,23 @@ public class OpController extends Controller{
      * @param building
      * @param point
      */
-    private void editBuildingPlaces(Building building, Point point){
-        //TODO hay que cambiar los atributos para los cambios venideros: Sólo se va a recibir el nombre del edificio
+    private void editBuildingPlaces(String bName){
         Dialog<String> dialog = new Dialog<>();
+        Point point = (Point)frontPane.lookup("#B-" + bName);
 
         // Lista de lugares.
         ListView<String> listView = placesListGUI();
         listView.setMaxHeight(100);
 
         //Añadir los lugares que ya existen.
-        LinkedList<Place> bPlaces = building.getPlaces();
+        LinkedList<Place> bPlaces = point.getPlaces();
 
         for (int i = 0; i < bPlaces.getSize(); i++) {
             listView.getItems().add(bPlaces.getName(i));
         }
 
-        dialog.setTitle("Edite los lugares de un Edificio");
-        dialog.setHeaderText("Agregue o elimine lugares del edificio " + building.getName());
+        dialog.setTitle("Editar Edificio");
+        dialog.setHeaderText("Edite el edificio " + bName);
         ButtonType accept = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
 
         dialog.getDialogPane().getButtonTypes().addAll(accept, ButtonType.CANCEL);
@@ -538,6 +537,11 @@ public class OpController extends Controller{
         TextField places = new TextField();
         places.setPromptText("Escriba el lugar");
         Button addPlace = new Button("Agregar");
+
+        int[] pos = grafo.getBuildings().getNode(bName).getPosition();
+
+        TextField coordX = new TextField(pos[0] + "");
+        TextField coordY = new TextField(pos[1] + "");
 
         // Botón para agregar nuevos lugares
         addPlace.setOnAction(e -> {
@@ -560,8 +564,16 @@ public class OpController extends Controller{
         HBox.setHgrow(places, Priority.ALWAYS);
         hbox.getChildren().addAll(places, addPlace);
 
+        HBox hboxPos = new HBox();
+        hboxPos.setSpacing(10);
+        HBox.setHgrow(coordX, Priority.ALWAYS);
+        HBox.setHgrow(coordY, Priority.ALWAYS);
+        hboxPos.getChildren().addAll(coordX, coordY);
+
         grid.add(hbox, 0, 0);
         grid.add(listView, 0, 1);
+        grid.add(new Label("Posición"), 0, 2);
+        grid.add(hboxPos, 0, 3);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -569,7 +581,7 @@ public class OpController extends Controller{
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == accept) {
                 
-                return new String();//places.getText();
+                return bName;
             }
             return null;
         });
@@ -592,10 +604,59 @@ public class OpController extends Controller{
                 newPlaces.add(nPlace);
             }
 
-            building.setPlaces(newPlaces);
+            FileController.changePlaces(grafo, bName, bPlaces);
             point.setPlaces(newPlaces);
 
             placesList.setText("[Ninguno]");
+
+            //Cambiar las coordenadas de las líneas relacionadas.
+            int newX = Integer.parseInt(coordX.getText());
+            int newY = Integer.parseInt(coordY.getText());
+
+            if (pos[0] != newX || pos[1] != newY){
+                if (newY > 30 && newY < 575 && newX > 30 && newX < 820){
+                    System.out.println("La coordenada de la ruta es diferente");
+
+                    for(int i=0; i < backPane.getChildren().size(); i++){
+                        if(backPane.getChildren().get(i) instanceof Line) {
+                            Line l = (Line)backPane.getChildren().get(i);
+                            String crrntRoute = l.getId();
+
+                            System.out.println(crrntRoute + " : " + bName);
+                            if (crrntRoute.contains(bName)){
+                                String r = "";
+
+                                for(int j = 2; j < crrntRoute.length(); j++){
+                                    if (crrntRoute.toCharArray()[j] != '-'){
+                                        r += crrntRoute.toCharArray()[j];
+                                    }else{
+                                        break;
+                                    }
+                                }
+                                System.out.println("R es: " + r);
+
+                                //está de primero
+                                if (r.equals(bName)){
+                                    l.setStartX(newX);
+                                    l.setStartY(newY);
+                                }else{
+                                    System.out.println("CAMBIANDO COORDS FINALES");
+                                    l.setEndX(newX);
+                                    l.setEndY(newY);
+                                }
+
+                                Label weight = (Label)frontPane.lookup("#B" + crrntRoute);
+                                weight.setLayoutX((l.getStartX() + l.getEndX())/2);
+                                weight.setLayoutY((l.getStartY() + l.getEndY())/2);
+                            }
+                        }
+                    }
+                    point.setLayoutX(newX - point.getPrefWidth()/2);
+                    point.setLayoutY(newY - point.getPrefHeight()/2);
+                    FileController.changePosition(grafo, bName, newX, newY);
+                }
+            }
+            
             grafo.print();
         });
     }
@@ -683,7 +744,7 @@ public class OpController extends Controller{
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(null);
         alert.setTitle("Confirmación");
-        alert.setContentText("¿Estas seguro de que quiere salir? los cambios sin guardar se perderán");
+        alert.setContentText("¿Estas seguro de que quiere salir?");
         Optional<ButtonType> action = alert.showAndWait();
 
         if (action.get() == ButtonType.OK){

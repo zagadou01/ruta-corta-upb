@@ -39,32 +39,35 @@ public class ViewController extends Controller{
             if (bStart != null && bEnd != null){
                 String[] ruta = grafo.shortestPath(bStart, bEnd, !stairs);
 
-                for (int i = 0; i < ruta.length-1; i ++){
-                    
-                    String b1 = ruta[i];
-                    String b2 = ruta[i + 1];
+                if (ruta != null){
+                    for (int i = 0; i < ruta.length-1; i ++){
+                        
+                        String b1 = ruta[i];
+                        String b2 = ruta[i + 1];
 
-                    System.out.println("BUSCANDO: "+ b1 + " to " + b2);
+                        System.out.println("BUSCANDO: "+ b1 + " to " + b2);
 
-                    //Buscar las líneas con un ID que contenga el edificio en cuestión.
-                    for(int j = 0; j < backPane.getChildren().size(); j++){
+                        //Buscar las líneas con un ID que contenga el edificio en cuestión.
+                        for(int j = 0; j < backPane.getChildren().size(); j++){
 
-                        if(backPane.getChildren().get(j) instanceof Line) {
-                            
-                            Line l = (Line)backPane.getChildren().get(j);
-                            String crrnt = l.getId();
+                            if(backPane.getChildren().get(j) instanceof Line) {
+                                
+                                Line l = (Line)backPane.getChildren().get(j);
+                                String crrnt = l.getId();
 
-                            System.out.println(crrnt);
-                            if (crrnt.contains(b1) && crrnt.contains(b2)){
+                                System.out.println(crrnt);
+                                if (crrnt.contains(b1) && crrnt.contains(b2)){
 
-                                l.setStroke(Color.LIGHTGREEN);
+                                    l.setStroke(Color.LIGHTGREEN);
+                                }
                             }
                         }
-                    }
 
-                    System.out.println(i);
-                }        
-
+                        System.out.println(i);
+                    }        
+                }else{
+                    showError("No existe una ruta desde " + bStart + " hasta " + bEnd);
+                }
                 shortRoute = true;
             }else{
                 showError("Debe seleccionar un edificio inicial y uno final.");

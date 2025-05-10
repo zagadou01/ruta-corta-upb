@@ -30,4 +30,9 @@ public class Building extends Structure {
     public int[] getPosition(){
         return position;
     }
+
+    public void setPosition(int x, int y){
+        position[0] = x;
+        position[1] = y;
+    }
 }

@@ -18,7 +18,6 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import model.Building;
 import model.Graph;
-import model.Place;
 import model.Route;
 
 
@@ -35,7 +34,7 @@ public abstract class Controller {
     @FXML
     protected AnchorPane frontPane;
 
-    protected Graph grafo = new Graph();
+    protected Graph grafo;
 
     @FXML
     public void initialize(){
@@ -52,26 +51,29 @@ public abstract class Controller {
         });
 
         FileController.setOnRouteAdded(route -> {
-            Platform.runLater(() -> createRoute(route, grafo));
+            Platform.runLater(() -> createRoute(route));
         });
+
+        grafo = FileController.createGraph();
 
         // TODO carga de archivos, csv o Json
 
         // agregando nodos (TEST, luego se cargarán desde un archivo csv)
-        Building b1 = new Building("J", 500, 300);
+        /*Building b1 = new Building("J", 500, 300);
         b1.addPlace(new Place("Biblioteca"));
         b1.addPlace(new Place("Salas de asesoría"));
 
-        grafo.addBuilding(new Building("A", 100, 100));
-        grafo.addBuilding(new Building("B", 100, 200));
-        grafo.addBuilding(new Building("C", 200, 100));
-        grafo.addBuilding(b1);
+        FileController.addBuilding(grafo, new Building("A", 100, 100));
+        FileController.addBuilding(grafo, new Building("B", 100, 200));
+        FileController.addBuilding(grafo, new Building("C", 200, 100));
+        FileController.addBuilding(grafo, b1);
 
-        grafo.addRoute("A", "B", 5, true);
-        grafo.addRoute("C", "B", 0, false);
-        grafo.addRoute("C", "J", 0, false);
-        grafo.addRoute("A", "J", 100, false);
-
+        FileController.addRoute(grafo, "A", "B", 5, true);
+        FileController.addRoute(grafo, "A", "B", 5, true);
+        FileController.addRoute(grafo, "C", "B", 0, false);
+        FileController.addRoute(grafo, "C", "J", 0, false);
+        FileController.addRoute(grafo,"A", "J", 100, false);
+*/
         //FileController.
         grafo.print();
     }
@@ -127,7 +129,7 @@ public abstract class Controller {
      * @param route
      * @param grafo
      */
-    protected void createRoute(Route route, Graph grafo){
+    protected void createRoute(Route route){
         String strStart = route.getBuildings()[0];
         String strEnd = route.getBuildings()[1];
 
@@ -141,6 +143,8 @@ public abstract class Controller {
         line.setStrokeWidth(3.0);
 
         backPane.getChildren().add(line);
+
+        System.out.println(line.getId());
     }
 
     protected void showError(String error){
