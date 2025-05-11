@@ -185,6 +185,7 @@ public class Graph {
                     // Si es igual, le restamos la distancia de la ruta a la actual, cambiamos a ese edificio
                     // Aumentamos el tamaño del arreglo, agregamos el edificio al camino
                     if (distances[i] == distance) {
+                        distances[currentBuilding] = Integer.MAX_VALUE;
                         currentDistance -= auxiliaryRoutes.getDistance();
                         currentBuilding = i;
                         path = Arrays.copyOf(path, pathSize + 1);
