@@ -3,6 +3,7 @@ package controller;
 import java.util.Optional;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -28,6 +29,9 @@ public class ViewController extends Controller{
     private String bEnd = null;
     private boolean shortRoute = false;
 
+    //Este es un String para el botón de ayuda. Como no hay cambio de idiomas, resulta fácil hacerlo como un String
+    private String infoHelp = "Para buscar una ruta entre dos edificios, presione los botones con el nombre de los edificios correspondientes y presione el botón Calcular Ruta, entonces podrá ver los caminos que debe tomar resaltados en otro color.\nSi necesita obtener las rutas sin escaleras, presione el botón en la parte superior izquierda del mapa para activar o desactivar esta opción.";
+
     @FXML
     /**
      * Llama al algoritmo Dijkstra del Grafo inicializado, para utilizar
@@ -39,35 +43,38 @@ public class ViewController extends Controller{
             if (bStart != null && bEnd != null){
                 String[] ruta = grafo.shortestPath(bStart, bEnd, !stairs);
 
-                for (int i = 0; i < ruta.length-1; i ++){
-                    
-                    String b1 = ruta[i];
-                    String b2 = ruta[i + 1];
+                if (ruta != null){
+                    for (int i = 0; i < ruta.length-1; i ++){
+                        
+                        String b1 = ruta[i];
+                        String b2 = ruta[i + 1];
 
-                    System.out.println("BUSCANDO: "+ b1 + " to " + b2);
+                        System.out.println("BUSCANDO: "+ b1 + " to " + b2);
 
-                    //Buscar las líneas con un ID que contenga el edificio en cuestión.
-                    for(int j = 0; j < backPane.getChildren().size(); j++){
+                        //Buscar las líneas con un ID que contenga el edificio en cuestión.
+                        for(int j = 0; j < backPane.getChildren().size(); j++){
 
-                        if(backPane.getChildren().get(j) instanceof Line) {
-                            
-                            Line l = (Line)backPane.getChildren().get(j);
-                            String crrnt = l.getId();
+                            if(backPane.getChildren().get(j) instanceof Line) {
+                                
+                                Line l = (Line)backPane.getChildren().get(j);
+                                String crrnt = l.getId();
 
-                            System.out.println(crrnt);
-                            if (crrnt.contains(b1) && crrnt.contains(b2)){
+                                System.out.println(crrnt);
+                                if (crrnt.contains(b1) && crrnt.contains(b2)){
 
-                                l.setStroke(Color.LIGHTGREEN);
+                                    l.setStroke(Color.LIGHTGREEN);
+                                }
                             }
                         }
-                    }
 
-                    System.out.println(i);
-                }        
-
+                        System.out.println(i);
+                    }        
+                }else{
+                    showPopUp(AlertType.INFORMATION, "INFO", "Ruta inexistente", "La ruta entre " + bStart + " y " + bEnd + " no existe.");
+                }
                 shortRoute = true;
             }else{
-                showError("Debe seleccionar un edificio inicial y uno final.");
+                showPopUp(AlertType.ERROR, "ERROR", "Ha ocurrido un error", "Debe seleccionar un edificio inicial y uno final.");
             }
         }
         System.out.println("grafo.Dijkstra(Nodo inicio: " + bStart + ", Nodo fin: " + bEnd + ", Escaleras? " + stairs + ")");
@@ -79,6 +86,20 @@ public class ViewController extends Controller{
      * si las escaleras se están activando o quitarle el punteado a todas si se están desactivando.
      */
     private void setStairs(){
+        
+        if (shortRoute){
+            //Buscar las líneas con un ID que contenga el edificio en cuestión.
+            for(int j = 0; j < backPane.getChildren().size(); j++){
+
+                if(backPane.getChildren().get(j) instanceof Line) {
+                    
+                    Line l = (Line)backPane.getChildren().get(j);
+
+                    l.setStroke(Color.BLACK);
+                }
+            }
+            shortRoute = false;
+        }
 
         for(int i=0; i<backPane.getChildren().size(); i++){
 
@@ -89,7 +110,7 @@ public class ViewController extends Controller{
                 if (stairs){
                     l.getStrokeDashArray().clear();
                 }else{
-                    if (l.getId().charAt(6) == '1'){
+                    if (l.getId().charAt(l.getId().length() - 1) == '1'){
 
                         l.getStrokeDashArray().add(6d);
                     }
@@ -202,10 +223,13 @@ public class ViewController extends Controller{
             if (pair.equals(rlPass)){
                 changeScene("operator-view.fxml", devMode);
             }else{
-                showError("La contraseña no es válida.");
+                showPopUp(AlertType.ERROR, "ERROR", "Ha ocurrido un error", "La contraseña no es válida.");
             }
         });
+    }
 
-
+    @FXML
+    protected void showHelp(){
+        showPopUp(AlertType.INFORMATION, "Ayuda", "Esta es una guía para el uso del programa.", infoHelp);
     }
 }

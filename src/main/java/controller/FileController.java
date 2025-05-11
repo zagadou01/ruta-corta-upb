@@ -2,9 +2,25 @@ package controller;
 
 import model.*;
 import java.io.*;
+import java.util.function.Consumer;
 
 public class FileController {
+
+    private static Consumer<Building> onBuildingAdded;
+    private static Consumer<Route> onRouteAdded;
+
+    //Estos dos métodos son para que el Grafo le avise a la interfaz cuando se añaden nuevas rutas y edificios.
+    public static void setOnBuildingAdded(Consumer<Building> callback) {
+        onBuildingAdded = callback;
+    }
+
+    public static void setOnRouteAdded(Consumer<Route> callback) {
+        onRouteAdded = callback;
+    }
+
     public static void addBuilding(Graph graph, Building building) {
+        if (onBuildingAdded != null) onBuildingAdded.accept(building);
+
         graph.addBuilding(building);
         saveGraph(graph);
     }
@@ -15,6 +31,8 @@ public class FileController {
     }
 
     public static void addRoute(Graph graph, String initialBuilding, String finalBuilding, int distance, boolean stairs) {
+        if (onRouteAdded != null) onRouteAdded.accept(new Route(distance, stairs, initialBuilding, finalBuilding));
+        
         graph.addRoute(initialBuilding, finalBuilding, distance, stairs);
         saveGraph(graph);
     }
@@ -26,6 +44,11 @@ public class FileController {
 
     public static void changePlaces(Graph graph, String buildingName, LinkedList<Place> places) {
         graph.getBuildings().getNode(buildingName).setPlaces(places);
+        saveGraph(graph);
+    }
+
+    public static void changePosition(Graph graph, String buildingName, int x, int y) {
+        graph.getBuildings().getNode(buildingName).setPosition(x, y);
         saveGraph(graph);
     }
 
@@ -62,6 +85,7 @@ public class FileController {
                     }
                     building.setPlaces(places);
                 }
+                if (onBuildingAdded != null) onBuildingAdded.accept(building);
                 buildings.add(building);
             }
             reader.close();
@@ -93,7 +117,7 @@ public class FileController {
 
     private static Route[][] readRoutes(LinkedList<Building> buildings) {
         int buildingsSize = buildings.getSize();
-        Route[][] routes = new Route[buildingsSize][buildingsSize];;
+        Route[][] routes = new Route[buildingsSize][buildingsSize];
         String line = "";
         int lineNumberCount = 0;
         try {
@@ -105,10 +129,12 @@ public class FileController {
                     Route route = null;
                     if (!splitLine[i].equals("-")) {
                         String[] routeInfo = splitLine[i].split(";");
+                        
                         route = new Route(Integer.parseInt(routeInfo[0]), Boolean.parseBoolean(routeInfo[1]),
                                                 routeInfo[2], routeInfo[3]);
                     }
                     routes[lineNumberCount][i] = route;
+                    if (onRouteAdded != null && route != null && routes[i][lineNumberCount] == null) onRouteAdded.accept(route);
                 }
                 lineNumberCount++;
             }

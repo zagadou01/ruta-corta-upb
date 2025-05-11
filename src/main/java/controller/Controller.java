@@ -10,15 +10,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import model.Building;
 import model.Graph;
-import model.Place;
 import model.Route;
 
 
@@ -34,8 +37,12 @@ public abstract class Controller {
     protected AnchorPane backPane;
     @FXML
     protected AnchorPane frontPane;
+    @FXML
+    protected Button help;
 
-    protected Graph grafo = new Graph();
+    private String infoHelp;
+
+    protected Graph grafo;
 
     @FXML
     public void initialize(){
@@ -47,30 +54,35 @@ public abstract class Controller {
         mainAnchor.setPrefSize(1080, 720);
 
         //Listeners para agregar automáticamente Nodos o Aristas a la GUI
-        grafo.setOnBuildingAdded(nodo -> {
+        FileController.setOnBuildingAdded(nodo -> {
             Platform.runLater(() -> createBuilding(nodo));
         });
 
-        grafo.setOnRouteAdded(route -> {
-            Platform.runLater(() -> createRoute(route, grafo));
+        FileController.setOnRouteAdded(route -> {
+            Platform.runLater(() -> createRoute(route));
         });
+
+        grafo = FileController.createGraph();
 
         // TODO carga de archivos, csv o Json
 
         // agregando nodos (TEST, luego se cargarán desde un archivo csv)
-        Building b1 = new Building("J", 500, 300);
+        /*Building b1 = new Building("J", 500, 300);
         b1.addPlace(new Place("Biblioteca"));
         b1.addPlace(new Place("Salas de asesoría"));
 
-        grafo.addBuilding(new Building("A", 100, 100));
-        grafo.addBuilding(new Building("B", 100, 200));
-        grafo.addBuilding(new Building("C", 200, 100));
-        grafo.addBuilding(b1);
+        FileController.addBuilding(grafo, new Building("A", 100, 100));
+        FileController.addBuilding(grafo, new Building("B", 100, 200));
+        FileController.addBuilding(grafo, new Building("C", 200, 100));
+        FileController.addBuilding(grafo, b1);
 
-        grafo.addRoute("A", "B", 5, true);
-        grafo.addRoute("C", "B", 0, false);
-        grafo.addRoute("C", "J", 0, false);
-        grafo.addRoute("A", "J", 100, false);
+        FileController.addRoute(grafo, "A", "B", 5, true);
+        FileController.addRoute(grafo, "A", "B", 5, true);
+        FileController.addRoute(grafo, "C", "B", 0, false);
+        FileController.addRoute(grafo, "C", "J", 0, false);
+        FileController.addRoute(grafo,"A", "J", 100, false);
+*/
+        //FileController.
         grafo.print();
     }
 
@@ -125,7 +137,7 @@ public abstract class Controller {
      * @param route
      * @param grafo
      */
-    protected void createRoute(Route route, Graph grafo){
+    protected void createRoute(Route route){
         String strStart = route.getBuildings()[0];
         String strEnd = route.getBuildings()[1];
 
@@ -139,14 +151,33 @@ public abstract class Controller {
         line.setStrokeWidth(3.0);
 
         backPane.getChildren().add(line);
+
+        System.out.println(line.getId());
     }
 
-    protected void showError(String error){
-        Alert alert = new Alert(AlertType.ERROR);
+    protected void showPopUp(AlertType type, String title, String header, String info){
+        Alert alert = new Alert(type);
 
-        alert.setTitle("ERROR");
-        alert.setHeaderText("Ha ocurrido un error");
-        alert.setContentText(error);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+
+        TextArea textArea = new TextArea(info);
+        textArea.setWrapText(true);
+        textArea.setEditable(false);
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+
+        // Hacer que el área de texto se expanda
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        GridPane content = new GridPane();
+        content.setMaxWidth(Double.MAX_VALUE);
+        content.add(textArea, 0, 0);
+
+        alert.getDialogPane().setContent(content);
+
+        alert.setContentText(info);
 
         alert.show();
     }
