@@ -28,7 +28,7 @@ public class Graph {
 
         for (int i = 0; i < size; i++) {
             Building newBuilding = buildings.getNode(i);
-            addBuilding(new Building(newBuilding.getName(), newBuilding.getPosition()[0], newBuilding.getPosition()[1]));
+            addBuilding(newBuilding);
         }
     }
 

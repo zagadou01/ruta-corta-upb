@@ -1,4 +1,17 @@
 name,x,y,places
-P1,60,301,
-J,800,152,
-E,431,369,
+P1,60,250,Portería
+J,165,325,Biblioteca
+C,165,188,Banco
+B,165,120,Bienestar universitario
+A,165,56,Cafetería
+D,275,240,Cámaras;Objetos perdidos
+E,405,320,
+F,405,420,Papelería;Cafetería
+G,300,400,
+H,504,320,
+L,800,240,Cafetería
+I,611,230,
+K,548,150,Cafetería
+CF,250,120,Cafetería
+P2,397,31,Portería
+ZV,360,500,Zona de ventas;Máquinas expendedoras

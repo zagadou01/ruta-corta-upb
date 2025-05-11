@@ -52,7 +52,7 @@ public class OpController extends Controller{
     private boolean addingBuilding = false;
 
     //Este es un String para el botón de ayuda. Como no hay cambio de idiomas, resulta fácil hacerlo como un String
-    private String infoHelp = "hola op";
+    private String infoHelp = "El modo desarrollador cuenta con 5 opciones: Agregar o quitar rutas y edificios, y también editar las propiedades de un edificio.\nPara agregar edificios, deberá específicar un nombre y, opcionalmente, lugares importantes. Si quiere editarlo, puede hacer click sobre el correspondiente edificio, donde también podrá cambiar su posición. Al eliminar un edificio, también se borrarán las rutas asociadas\nPara agregar rutas, deberá específicar el inicio y destino, el tiempo que toma recorrerla (en segundos) y si tiene escaleras. Para eliminar una ruta, sólo debe seleccionar los dos edificios asociados.";
 
     /**
      * Crea un edificio (Point) y le asigna la función editBuildingPlaces(Building, Point) al darle click para editar sus lugares.
@@ -86,9 +86,9 @@ public class OpController extends Controller{
 
         //Se crea una etiqueta que indique el peso de la Arista.
         Label weight = new Label(Integer.toString(route.getDistance()));
-        weight.setLayoutX((line.getStartX() + line.getEndX())/2);
-        weight.setLayoutY((line.getStartY() + line.getEndY())/2);
-
+        weight.setLayoutX((line.getStartX() + line.getEndX())/2 - 4.25);
+        weight.setLayoutY((line.getStartY() + line.getEndY())/2 - 6.75);
+        weight.setStyle("");
         weight.setId("B" + line.getId());
         frontPane.getChildren().add(weight);
     }
@@ -291,7 +291,7 @@ public class OpController extends Controller{
 
             frontPane.getChildren().add(btnPlace);
         }else{
-            addBuild.setText("Agregar Edificio");
+            addBuild.setText("Edificio");
             delBuild.setDisable(false);
             addRoute.setDisable(false);
             delRoute.setDisable(false);
@@ -451,12 +451,17 @@ public class OpController extends Controller{
 
         result.ifPresent(pair -> {
             if (!pair[0].isEmpty()){
-                Building newBuild = new Building(pair[0], x, y);
-                
-                newBuild.setPlaces(placesToList(pair[1]));
 
-                FileController.addBuilding(grafo, newBuild);
-                grafo.print();
+                if (grafo.getBuildings().getNode(pair[0]) == null){
+                    Building newBuild = new Building(pair[0], x, y);
+                    
+                    newBuild.setPlaces(placesToList(pair[1]));
+
+                    FileController.addBuilding(grafo, newBuild);
+                    grafo.print();
+                }else{
+                    showPopUp(AlertType.ERROR, "ERROR", "Ha ocurrido un error", "Este Edificio ya existe.");
+                }
             }else{
                 showPopUp(AlertType.ERROR, "ERROR", "Ha ocurrido un error", "Debe especificar un nombre para el edificio.");
             }
@@ -469,27 +474,46 @@ public class OpController extends Controller{
      * @param bStart Nombre del edificio inicial
      * @param bEnd Nombre del edificio final
      */
-    private void deleteLineRoute(String bStart, String bEnd){        
-            for(int i=0; i < backPane.getChildren().size(); i++){
+    private void deleteLineRoute(String bStart, String bEnd){      
+        for(int i=0; i < backPane.getChildren().size(); i++){
 
-                if(backPane.getChildren().get(i) instanceof Line) {
-                    
-                    Line l = (Line)backPane.getChildren().get(i);
-                    String crrntRoute = l.getId();
+            if(backPane.getChildren().get(i) instanceof Line) {
+                
+                Line l = (Line)backPane.getChildren().get(i);
+                String crrntRoute = l.getId();
 
-                    if (crrntRoute.contains(bStart) && crrntRoute.contains(bEnd)){
-                        //Elimina el numerito que muestra el peso
-                        frontPane.getChildren().remove(frontPane.lookup("#B" + l.getId()));
-                        //Elimina la línea.
-                        backPane.getChildren().remove(l);
-                        //Cuando se elimina uno, el siguiente pasa a ser el index actual, entonces hay que volverlo a cuadrar.
-                        i--;
+                String bc1 = "";
+                String bc2 = "";
 
-                        //Se elimina la ruta del grafo.
-                        FileController.removeRoute(grafo, bStart, bEnd);
+                for(int k = 2; k < crrntRoute.length(); k++){
+                    if (crrntRoute.toCharArray()[k] != '-'){
+                        bc1 += crrntRoute.toCharArray()[k];
+                    }else{
+                        break;
                     }
                 }
+
+                for(int k = 3 + bc1.length(); k < crrntRoute.length(); k++){
+                    if (crrntRoute.toCharArray()[k] != '-'){
+                        bc2 += crrntRoute.toCharArray()[k];
+                    }else{
+                        break;
+                    }
+                }
+
+                if ((bc1.equals(bStart) && bc2.equals(bEnd)) || (bc2.equals(bStart) && bc1.equals(bEnd)) || (bEnd == bStart && (bc1.equals(bStart) || bc2.equals(bStart)))){
+                    //Elimina el numerito que muestra el peso
+                    frontPane.getChildren().remove(frontPane.lookup("#B" + l.getId()));
+                    //Elimina la línea.
+                    backPane.getChildren().remove(l);
+                    //Cuando se elimina uno, el siguiente pasa a ser el index actual, entonces hay que volverlo a cuadrar.
+                    i--;
+
+                    //Se elimina la ruta del grafo.
+                    FileController.removeRoute(grafo, bStart, bEnd);
+                }
             }
+        }
         grafo.print();
     }
 
@@ -608,7 +632,11 @@ public class OpController extends Controller{
                 newPlaces.add(nPlace);
             }
 
-            FileController.changePlaces(grafo, bName, bPlaces);
+            for (int i = 0; i < grafo.getBuildings().getSize(); i ++){
+                System.out.println(grafo.getBuildings().getNode(i).getPlaces().toString());
+            }
+
+            FileController.changePlaces(grafo, bName, newPlaces);
             point.setPlaces(newPlaces);
 
             placesList.setText("[Ninguno]");
@@ -757,7 +785,7 @@ public class OpController extends Controller{
     }
 
     @FXML
-    protected void showHelp(){
-        showPopUp(AlertType.INFORMATION, "Ayuda", "Esta es una guía para el uso del programa.", infoHelp);
+    private void showHelp(){
+        showPopUp(AlertType.INFORMATION, "Ayuda", "Guía para el uso del programa.", infoHelp);
     }
 }
