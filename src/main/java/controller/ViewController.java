@@ -86,7 +86,21 @@ public class ViewController extends Controller{
      * si las escaleras se están activando o quitarle el punteado a todas si se están desactivando.
      */
     private void setStairs(){
-  
+        
+        if (shortRoute){
+            //Buscar las líneas con un ID que contenga el edificio en cuestión.
+            for(int j = 0; j < backPane.getChildren().size(); j++){
+
+                if(backPane.getChildren().get(j) instanceof Line) {
+                    
+                    Line l = (Line)backPane.getChildren().get(j);
+
+                    l.setStroke(Color.BLACK);
+                }
+            }
+            shortRoute = false;
+        }
+
         for(int i=0; i<backPane.getChildren().size(); i++){
 
             if(backPane.getChildren().get(i) instanceof Line) {
