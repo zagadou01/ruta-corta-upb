@@ -110,7 +110,7 @@
 }
 
 .context-menu {
-    -fx-skin: "com.sun.javafx.scene.control.skin.ContextMenuSkin";
+    /*-fx-skin: "com.sun.javafx.scene.control.skin.ContextMenuSkin";*/
     -fx-background-color: #EFEFEF;
     -fx-pref-width: 90px;
     -fx-background-radius: 15;

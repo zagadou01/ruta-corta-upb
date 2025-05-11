@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
@@ -63,26 +64,7 @@ public abstract class Controller {
         });
 
         grafo = FileController.createGraph();
-
-        // TODO carga de archivos, csv o Json
-
-        // agregando nodos (TEST, luego se cargarán desde un archivo csv)
-        /*Building b1 = new Building("J", 500, 300);
-        b1.addPlace(new Place("Biblioteca"));
-        b1.addPlace(new Place("Salas de asesoría"));
-
-        FileController.addBuilding(grafo, new Building("A", 100, 100));
-        FileController.addBuilding(grafo, new Building("B", 100, 200));
-        FileController.addBuilding(grafo, new Building("C", 200, 100));
-        FileController.addBuilding(grafo, b1);
-
-        FileController.addRoute(grafo, "A", "B", 5, true);
-        FileController.addRoute(grafo, "A", "B", 5, true);
-        FileController.addRoute(grafo, "C", "B", 0, false);
-        FileController.addRoute(grafo, "C", "J", 0, false);
-        FileController.addRoute(grafo,"A", "J", 100, false);
-*/
-        //FileController.
+        
         grafo.print();
     }
 
@@ -148,8 +130,8 @@ public abstract class Controller {
 
         Line line = new Line(position[0], position[1], position[2], position[3]);
         line.setId("R-" + strStart + "-" + strEnd + "-" + (route.hasStairs() ? 1 : 0));
-        line.setStrokeWidth(3.0);
-
+        line.setStrokeWidth(2.25);
+        line.setStroke(Color.DARKGRAY);
         backPane.getChildren().add(line);
 
         System.out.println(line.getId());

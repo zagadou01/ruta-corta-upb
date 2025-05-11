@@ -42,7 +42,7 @@ public class ViewController extends Controller{
         if (!shortRoute){
             if (bStart != null && bEnd != null){
                 String[] ruta = grafo.shortestPath(bStart, bEnd, !stairs);
-
+                
                 if (ruta != null){
                     for (int i = 0; i < ruta.length-1; i ++){
                         
@@ -59,10 +59,34 @@ public class ViewController extends Controller{
                                 Line l = (Line)backPane.getChildren().get(j);
                                 String crrnt = l.getId();
 
-                                System.out.println(crrnt);
-                                if (crrnt.contains(b1) && crrnt.contains(b2)){
+                                String bc1 = "";
+                                String bc2 = "";
 
-                                    l.setStroke(Color.LIGHTGREEN);
+                                for(int k = 2; k < crrnt.length(); k++){
+                                    if (crrnt.toCharArray()[k] != '-'){
+                                        bc1 += crrnt.toCharArray()[k];
+                                    }else{
+                                        break;
+                                    }
+                                }
+
+                                for(int k = 3 + bc1.length(); k < crrnt.length(); k++){
+                                    if (crrnt.toCharArray()[k] != '-'){
+                                        bc2 += crrnt.toCharArray()[k];
+                                    }else{
+                                        break;
+                                    }
+                                }
+
+                                System.out.println(crrnt);
+                                if ((bc1.equals(b1) && bc2.equals(b2)) || (bc2.equals(b1) && bc1.equals(b2))){
+
+                                    l.setStroke(Color.GREEN);//l.setStroke(Color.rgb(204, 51, 101));
+                                    System.out.println("ENCONTRÉ LA RUTA");
+
+                                    if (i < ruta.length - 2) break;
+                                }else{
+                                    if (l.getStroke() != Color.GREEN) l.setStroke(Color.LIGHTGRAY);
                                 }
                             }
                         }
@@ -142,8 +166,7 @@ public class ViewController extends Controller{
                     if(backPane.getChildren().get(j) instanceof Line) {
                         
                         Line l = (Line)backPane.getChildren().get(j);
-
-                        l.setStroke(Color.BLACK);
+                        l.setStroke(Color.DARKGRAY);
                     }
                 }
                 shortRoute = false;
@@ -154,12 +177,12 @@ public class ViewController extends Controller{
                 if (bStart == null){
                     boton.setSelected(true);
                     bStart = boton.getText();
-                    boton.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px");
+                    boton.setStyle("-fx-border-color: Linear-gradient(to left, #CC00FF, #CC3365); -fx-border-width: 4px; -fx-border-insets: -1;");
 
                 }else if (bEnd == null){
                     boton.setSelected(true);
                     bEnd = boton.getText();
-                    boton.setStyle("-fx-border-color: GREEN; -fx-border-width: 5px");
+                    boton.setStyle("-fx-border-color: Linear-gradient(to left, #CC00FF, #CC3365); -fx-border-width: 4px; -fx-border-insets: -1;");
                 }
             }else{
             //Deseleccionar Nodos
@@ -186,7 +209,7 @@ public class ViewController extends Controller{
 
         Dialog<String> dialog = new Dialog<>();
 
-        dialog.setTitle("Acceda al modo operador");
+        dialog.setTitle("Modo operador");
         dialog.setHeaderText("Inserte una contraseña");
         ButtonType accept = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
 
@@ -229,7 +252,7 @@ public class ViewController extends Controller{
     }
 
     @FXML
-    protected void showHelp(){
-        showPopUp(AlertType.INFORMATION, "Ayuda", "Esta es una guía para el uso del programa.", infoHelp);
+    private void showHelp(){
+        showPopUp(AlertType.INFORMATION, "Ayuda", "Guía para el uso del programa.", infoHelp);
     }
 }
