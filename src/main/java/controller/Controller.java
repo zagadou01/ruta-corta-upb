@@ -41,8 +41,6 @@ public abstract class Controller {
     @FXML
     protected Button help;
 
-    private String infoHelp;
-
     protected Graph grafo;
 
     @FXML
@@ -64,7 +62,7 @@ public abstract class Controller {
         });
 
         grafo = FileController.createGraph();
-        
+
         grafo.print();
     }
 

@@ -119,7 +119,7 @@ public class ViewController extends Controller{
                     
                     Line l = (Line)backPane.getChildren().get(j);
 
-                    l.setStroke(Color.BLACK);
+                    l.setStroke(Color.DARKGRAY);
                 }
             }
             shortRoute = false;
