@@ -18,6 +18,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -67,6 +68,70 @@ public class OpController extends Controller{
         boton.setOnAction(e ->{
             editBuildingPlaces(building.getName());
         });
+
+        boton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+
+            for(int i=0; i < backPane.getChildren().size(); i++){
+
+                if(backPane.getChildren().get(i) instanceof Line) {
+                    Line l = (Line)backPane.getChildren().get(i);
+                    String crrntRoute = l.getId();
+
+                    if (crrntRoute.contains(building.getName())){
+                        boolean found = false;
+                        String r = "";
+
+                        for(int j = 2; j < crrntRoute.length(); j++){
+                            if (crrntRoute.toCharArray()[j] != '-'){
+                                r += crrntRoute.toCharArray()[j];
+                            }else{
+                                break;
+                            }
+                        }
+
+                        //está de primero
+                        if (r.equals(building.getName())){
+                            
+                            found = true;
+
+                        }else{
+                            int len = 3 + r.length();
+                            r = "";
+                            for(int j = len; j < crrntRoute.length(); j++){
+                                if (crrntRoute.toCharArray()[j] != '-'){
+                                    r += crrntRoute.toCharArray()[j];
+                                }else{
+                                    break;
+                                }
+                            }
+
+                            //está de segundo
+                            if (r.equals(building.getName())) found = true;
+                        }
+                        
+                        if (found){
+                            l.setStroke(Color.GREEN);
+                            Label lbl = (Label)frontPane.lookup("#B" + crrntRoute);
+                            lbl.setVisible(true);
+                        }
+                    }
+                }
+            }
+        });
+
+        boton.setOnMouseExited(e ->{
+            for(int i=0; i < backPane.getChildren().size(); i++){
+
+                if(backPane.getChildren().get(i) instanceof Line) {
+                    Line l = (Line)backPane.getChildren().get(i);
+                    String crrntRoute = l.getId();
+
+                    l.setStroke(Color.DARKGRAY);
+                    Label lbl = (Label)frontPane.lookup("#B" + crrntRoute);
+                    lbl.setVisible(false);
+                }
+            }
+        });
     }
 
     /**
@@ -86,10 +151,12 @@ public class OpController extends Controller{
 
         //Se crea una etiqueta que indique el peso de la Arista.
         Label weight = new Label(Integer.toString(route.getDistance()));
-        weight.setLayoutX((line.getStartX() + line.getEndX())/2 - 4.25);
-        weight.setLayoutY((line.getStartY() + line.getEndY())/2 - 6.75);
-        weight.setStyle("");
+        weight.setLayoutX((line.getStartX() + line.getEndX())/2 - 8);
+        weight.setLayoutY((line.getStartY() + line.getEndY())/2 - 10);
+        weight.setStyle("-fx-font-weight: bold; -fx-text-align: center; -fx-border-color: white; -fx-border-width: 2.5; -fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20;");
         weight.setId("B" + line.getId());
+        weight.setVisible(false);
+        weight.setMouseTransparent(true);
         frontPane.getChildren().add(weight);
     }
 
@@ -97,12 +164,14 @@ public class OpController extends Controller{
     private void addNewRoute(){
         Dialog<String[]> dialog = new Dialog<>();
 
+        dialog.getDialogPane().getStylesheets().add(getClass().getResource("/view/dialogStyle.css").toExternalForm());
+
         dialog.setTitle("Agregar Ruta");
         dialog.setHeaderText("Agregue una ruta entre dos edificios.");
         ButtonType accept = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
-
         dialog.getDialogPane().getButtonTypes().addAll(accept, ButtonType.CANCEL);
 
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).getStyleClass().add("cancel_button");
         //ComboBox, para tener las dos listas donde se mostrarán los edificios.
         ComboBox<String> bStart = new ComboBox<>();
         ComboBox<String> bEnd = new ComboBox<>();
@@ -196,6 +265,9 @@ public class OpController extends Controller{
 
         dialog.getDialogPane().getButtonTypes().addAll(accept, ButtonType.CANCEL);
 
+        dialog.getDialogPane().getStylesheets().add(getClass().getResource("/view/dialogStyle.css").toExternalForm());
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).getStyleClass().add("cancel_button");
+
         //ComboBox, para tener las dos listas donde se mostrarán los edificios.
         ComboBox<String> bStart = new ComboBox<>();
         ComboBox<String> bEnd = new ComboBox<>();  
@@ -261,7 +333,7 @@ public class OpController extends Controller{
             cancelAddBuild.setVisible(true);
             cancelAddBuild.setDisable(false);
 
-            Circle btnPlace = new Circle(25.5);
+            Circle btnPlace = new Circle(20.5);
             btnPlace.setId("NEW-B");
             btnPlace.setVisible(false);
 
@@ -270,7 +342,7 @@ public class OpController extends Controller{
                 double x = e.getX();
                 double y = e.getY();
 
-                if (y > 30 && y < 575 && x < 820){
+                if (y >= 30 && y <= 610 && x <= 820 && x >= 30){
                     btnPlace.setTranslateY(y);
                     btnPlace.setTranslateX(x);
                     btnPlace.setVisible(true);
@@ -322,6 +394,9 @@ public class OpController extends Controller{
         ButtonType accept = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
 
         dialog.getDialogPane().getButtonTypes().addAll(accept, ButtonType.CANCEL);
+
+        dialog.getDialogPane().getStylesheets().add(getClass().getResource("/view/dialogStyle.css").toExternalForm());
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).getStyleClass().add("cancel_button");
 
         //ComboBox, para tener la lista donde se mostrarán los edificios.
         ComboBox<String> builds = new ComboBox<>();
@@ -395,8 +470,10 @@ public class OpController extends Controller{
         dialog.setTitle("Agregar Edificio");
         dialog.setHeaderText("Agregue un nuevo edificio");
         ButtonType accept = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
-
         dialog.getDialogPane().getButtonTypes().addAll(accept, ButtonType.CANCEL);
+
+        dialog.getDialogPane().getStylesheets().add(getClass().getResource("/view/dialogStyle.css").toExternalForm());
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).getStyleClass().add("cancel_button");
 
         //TextField, para ponerle nombre al edificio y específicar los lugares
         TextField name = new TextField();
@@ -562,6 +639,9 @@ public class OpController extends Controller{
 
         dialog.getDialogPane().getButtonTypes().addAll(accept, ButtonType.CANCEL);
 
+        dialog.getDialogPane().getStylesheets().add(getClass().getResource("/view/dialogStyle.css").toExternalForm());
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).getStyleClass().add("cancel_button");
+
         TextField places = new TextField();
         places.setPromptText("Escriba el lugar");
         Button addPlace = new Button("Agregar");
@@ -646,7 +726,7 @@ public class OpController extends Controller{
             int newY = Integer.parseInt(coordY.getText());
 
             if (pos[0] != newX || pos[1] != newY){
-                if (newY > 30 && newY < 575 && newX > 30 && newX < 820){
+                if (newY >= 30 && newY <= 610 && newX >= 30 && newX <= 820){
                     System.out.println("La coordenada de la ruta es diferente");
 
                     for(int i=0; i < backPane.getChildren().size(); i++){
@@ -656,6 +736,7 @@ public class OpController extends Controller{
 
                             System.out.println(crrntRoute + " : " + bName);
                             if (crrntRoute.contains(bName)){
+                                boolean found = false;
                                 String r = "";
 
                                 for(int j = 2; j < crrntRoute.length(); j++){
@@ -671,15 +752,31 @@ public class OpController extends Controller{
                                 if (r.equals(bName)){
                                     l.setStartX(newX);
                                     l.setStartY(newY);
+                                    found = true;
                                 }else{
-                                    System.out.println("CAMBIANDO COORDS FINALES");
-                                    l.setEndX(newX);
-                                    l.setEndY(newY);
-                                }
+                                    int len = 3 + r.length();
+                                    r = "";
+                                    for(int j = len; j < crrntRoute.length(); j++){
+                                        if (crrntRoute.toCharArray()[j] != '-'){
+                                            r += crrntRoute.toCharArray()[j];
+                                        }else{
+                                            break;
+                                        }
+                                    }
 
-                                Label weight = (Label)frontPane.lookup("#B" + crrntRoute);
-                                weight.setLayoutX((l.getStartX() + l.getEndX())/2);
-                                weight.setLayoutY((l.getStartY() + l.getEndY())/2);
+                                    //está de segundo
+                                    if (r.equals(bName)){
+                                        l.setEndX(newX);
+                                        l.setEndY(newY);
+                                        found = true;
+                                    }
+                                }
+                                
+                                if (found){
+                                    Label weight = (Label)frontPane.lookup("#B" + crrntRoute);
+                                    weight.setLayoutX((l.getStartX() + l.getEndX())/2);
+                                    weight.setLayoutY((l.getStartY() + l.getEndY())/2);
+                                }
                             }
                         }
                     }
@@ -746,7 +843,7 @@ public class OpController extends Controller{
                 placeName.setPrefWidth(197);
 
                 btnDelete.setAlignment(Pos.TOP_RIGHT);
-
+                btnDelete.getStyleClass().add("btn_delete_item");
                 btnDelete.setOnAction(e -> {
 
                     listView.getItems().remove(listView.getItems().size() - 1);
@@ -774,9 +871,15 @@ public class OpController extends Controller{
     private void switchMode(){
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        
         alert.setHeaderText(null);
         alert.setTitle("Confirmación");
-        alert.setContentText("¿Estas seguro de que quiere salir?");
+        alert.setContentText("¿Está seguro de que quiere salir?");
+
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("/view/dialogStyle.css").toExternalForm());
+        alert.getDialogPane().getStyleClass().add("dialog-pane");
+        alert.getDialogPane().lookupButton(ButtonType.CANCEL).getStyleClass().add("cancel_button");
+
         Optional<ButtonType> action = alert.showAndWait();
 
         if (action.get() == ButtonType.OK){
