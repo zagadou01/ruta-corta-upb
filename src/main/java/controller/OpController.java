@@ -178,7 +178,7 @@ public class OpController extends Controller{
         //CheckBox para marcar si tiene escaleras o no
         CheckBox hasStairs = new CheckBox();
         //TextField para indicar el peso o distancia de la Arista.
-        TextField weight = new TextField("0");
+        TextField weight = new TextField("1");
 
         // Agregar un listener que solo permita números de 4 cifras para el peso usando regEx.
         weight.setTextFormatter(new TextFormatter<>(change -> {
