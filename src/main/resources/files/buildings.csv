@@ -1,17 +1,17 @@
 name,x,y,places
-P1,60,250,Portería
-J,165,325,Biblioteca
-C,165,188,Banco
-B,165,120,Bienestar universitario
-A,165,56,Cafetería
-D,275,240,Cámaras;Objetos perdidos
-E,405,320,
-F,405,420,Papelería;Cafetería
-G,300,400,
-H,504,320,
-L,800,240,Cafetería
-I,611,230,
-K,548,150,Cafetería
-CF,250,120,Cafetería
-P2,397,31,Portería
-ZV,360,500,Zona de ventas;Máquinas expendedoras
+P1,40,245,Portería
+J,118,363,Biblioteca
+C,165,200,Banco
+B,165,150,Bienestar universitario
+A,165,100,Cafetería
+D,355,240,Cámaras;Objetos perdidos
+E,435,360,
+F,320,400,Papelería;Cafetería
+G,365,450,
+H,530,445,
+L,765,425,Cafetería
+I,650,300,
+K,650,150,Cafetería
+CF,252,130,Cafetería
+P2,460,50,Portería
+ZV,318,582,Zona de ventas;Máquinas expendedoras

@@ -80,7 +80,7 @@ public abstract class Controller {
         boton.setText(name);
         boton.setPlaces(building.getPlaces());
 
-        boton.setPrefSize(50.0, 50.0);
+        boton.setPrefSize(40.0, 40.0);
         boton.setLayoutX(x - boton.getPrefWidth()/2);
         boton.setLayoutY(y - boton.getPrefHeight()/2);
         
@@ -89,11 +89,6 @@ public abstract class Controller {
         boton.setShape(new Circle(5));
 
         boton.setOnMouseEntered(e ->{
-
-            /*
-             * Esto se va a cambiar cuando se empiece a trabajar en añadir el estilo.
-             */
-
             //Actualizar la información de los lugares.
             if (boton.getPlaces().getSize() > 0){
                 String strPlaces = "[" + boton.getText()+"]\n";
@@ -137,9 +132,12 @@ public abstract class Controller {
 
     protected void showPopUp(AlertType type, String title, String header, String info){
         Alert alert = new Alert(type);
-
+        
         alert.setTitle(title);
         alert.setHeaderText(header);
+
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("/view/dialogStyle.css").toExternalForm());
+        alert.getDialogPane().getStyleClass().add("dialog-pane");
 
         TextArea textArea = new TextArea(info);
         textArea.setWrapText(true);

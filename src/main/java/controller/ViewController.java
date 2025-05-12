@@ -215,6 +215,9 @@ public class ViewController extends Controller{
 
         dialog.getDialogPane().getButtonTypes().addAll(accept, ButtonType.CANCEL);
 
+        dialog.getDialogPane().getStylesheets().add(getClass().getResource("/view/dialogStyle.css").toExternalForm());
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).getStyleClass().add("cancel_button");
+
         //ComboBox, para tener las dos listas donde se mostrarán los edificios.
         PasswordField pass = new PasswordField();
         pass.setPromptText("Contraseña");

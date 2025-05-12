@@ -6,6 +6,8 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -22,7 +24,7 @@
                      <children>
                         <Button fx:id="exitDev" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#switchMode" styleClass="admin_button">
                            <TilePane.margin>
-                              <Insets left="-67.0" />
+                              <Insets left="-53.0" />
                            </TilePane.margin>
                         </Button>
                         <MenuButton fx:id="addList" alignment="CENTER_LEFT" mnemonicParsing="false" styleClass="white_button" text="Agregar">
@@ -63,6 +65,11 @@
                <children>
                   <AnchorPane fx:id="frontPane" prefHeight="720.0" prefWidth="847.0">
                      <children>
+                        <ImageView fitHeight="574.0" fitWidth="802.0" layoutX="23.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Mapa.png" />
+                           </image>
+                        </ImageView>
                         <AnchorPane fx:id="backPane" />
                         <Button fx:id="cancelAddBuild" disable="true" layoutX="760.0" layoutY="635.0" mnemonicParsing="false" onAction="#addNewBuilding" styleClass="purple_button" text="Cancelar" visible="false" />
                      </children>

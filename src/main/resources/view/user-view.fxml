@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -19,7 +21,7 @@
                <children>
                   <TilePane prefHeight="26.0" prefWidth="660.0" HBox.hgrow="ALWAYS">
                      <children>
-			            <Button fx:id="devMode" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#switchMode" styleClass = "admin_button">
+			            <Button fx:id="devMode" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#switchMode" styleClass="admin_button">
                            <TilePane.margin>
                               <Insets right="10.0" />
                            </TilePane.margin>
@@ -49,6 +51,11 @@
                      <children>
                         <AnchorPane fx:id="backPane" prefHeight="720.0">
                            <children>
+                              <ImageView fitHeight="574.0" fitWidth="802.0" layoutX="23.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Mapa.png" />
+                                 </image>
+                              </ImageView>
                               <Button fx:id="calcRoute" layoutX="714.0" layoutY="635.0" mnemonicParsing="false" onAction="#calculateRoute" styleClass="purple_button" text="Calcular Ruta" />
                               <ToggleButton fx:id="switchStairs" layoutX="813" layoutY="8.0" mnemonicParsing="false" onAction="#setStairs" styleClass="stairs_button" />
                            </children>
