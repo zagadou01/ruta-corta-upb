@@ -24,12 +24,12 @@ algorithm.
 
 ## How to Run
 
-Clonar el repositorio:
+Clone the repository:
 ```
 git clone https://github.com/zagadou01/ruta-corta-upb.git
 ```    
 
-Compilar el proyecto, realizar dentro de la carpeta del proyecto:
+Compile the project, perform inside the project folder:
 ```
 mvn package
 mvn exec:java -Dexec.mainClass="view.Application"
