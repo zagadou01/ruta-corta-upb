@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e88701-4638-490a-8e0c-7786071464ce" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/TerminalMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/TerminalMain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +35,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/zagadou01/ruta-corta-upb.git&quot;,
-    &quot;accountId&quot;: &quot;a47cf36f-9505-43d1-8153-eb1360755721&quot;
+    &quot;accountId&quot;: &quot;8beed9ca-3545-4250-9270-e4a12f0ab764&quot;
   }
 }</component>
   <component name="MavenImportPreferences">
@@ -84,8 +85,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.129" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.129" />
       </set>
     </attachedChunks>
   </component>
@@ -118,6 +119,9 @@
       <workItem from="1746160540036" duration="1287000" />
       <workItem from="1746315130339" duration="6714000" />
       <workItem from="1746322240371" duration="10477000" />
+      <workItem from="1747090493646" duration="479000" />
+      <workItem from="1747102149431" duration="877000" />
+      <workItem from="1747107351008" duration="5166000" />
     </task>
     <servers />
   </component>
